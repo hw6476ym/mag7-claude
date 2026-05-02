@@ -1720,28 +1720,239 @@ Object.entries(miningOut).forEach(([k,vs])=>vs.forEach(v=>l(k,v)));
  ["p_tmus5g","c_pcb"],["p_tmus5g","c_optic"],
 ].forEach(([a,b])=>l(a,b));
 
+/* ----------------------------------------------------------------------------
+   ENERGY / POWER CHAIN — every factory needs electricity. Trace it to fuel.
+---------------------------------------------------------------------------- */
+
+// Electricity itself is treated as a refined "material" (kWh)
+n("m_electricity","Industrial electricity (kWh)",6,{desc:"Grid-delivered electrical power. The hidden ingredient inside every chip, battery cell, and refinery operation. ~1 EUV scanner draws ~1 MW; ~1 hyperscale data center draws 50–500 MW; TSMC consumed ~5% of all Taiwan electricity in 2022."});
+
+// Power plant types — modeled as tier-7 (refinery-level) processors
+n("r_pp_natgas","Combined-cycle natural-gas plant",7,{location:"global",desc:"~50% efficient gas turbine + steam cycle. Backbone of U.S./EU/JP/KR power; ~22% of world electricity. Requires LNG terminal or pipeline."});
+n("r_pp_nuclear","Nuclear power plant (LWR)",7,{location:"USA, France, Korea, Japan, China",desc:"PWR/BWR fission reactors. ~10% of world electricity, ~20% of U.S. + ~70% of France. Fueled by low-enriched uranium."});
+n("r_pp_coal","Coal-fired plant",7,{location:"China + India + Indonesia + USA",desc:"Burns thermal coal (lignite/bituminous). ~36% of world electricity — still the largest single source despite climate pressure."});
+n("r_pp_hydro","Hydroelectric plant",7,{location:"China (Three Gorges), Brazil, Norway, Quebec",desc:"~15% of world electricity. Three Gorges = world's largest at 22.5 GW. Quebec hydro powers some hyperscale data centers (Microsoft + AWS Canada Central)."});
+n("r_pp_solar","Utility-scale solar PV farm",7,{location:"China + India + USA + EU",desc:"PV cells convert sunlight directly to electricity. ~5% of world electricity but fastest growing. Bhadla India + Tengger China are largest single sites."});
+n("r_pp_wind","Onshore + offshore wind farm",7,{location:"China + USA + EU + UK",desc:"Hornsea (UK), Dogger Bank (UK, Equinor partner), Gansu (China). ~7% of world electricity."});
+n("r_pp_geo","Geothermal + hybrid plants",7,{location:"Iceland, Indonesia, Philippines, Kenya",desc:"Iceland is ~25% geothermal + 75% hydro — drives Icelandic hyperscale + crypto + aluminum smelters."});
+n("r_pp_taiwan_grid","Taipower Taiwan grid (mixed)",7,{location:"Taiwan",desc:"Taipower fuel mix 2024: ~40% LNG + ~30% coal + ~10% nuclear (declining) + ~10% renewables. TSMC alone consumed ~9% of total grid in 2024 — a national-scale industrial-policy issue.",flags:["⚠ TSMC = ~9% of Taiwan power demand"]});
+n("r_pp_korea_grid","KEPCO Korean grid",7,{location:"South Korea",desc:"~30% nuclear + ~30% coal + ~30% LNG + ~10% renewables. Powers Samsung + SK Hynix mega-fabs."});
+
+// Coal as a thermal fuel (separate from met coal)
+n("m_coal_thermal","Thermal coal",6,{desc:"Burned for power generation. ~70% of fuel by mass for coal plants."});
+n("m_coal_met","Metallurgical (coking) coal",6,{desc:"Used in steelmaking blast furnaces (BHP + Glencore + Teck). Distinct from thermal coal."});
+
+// Coal mines
+n("o_coal_au","Bowen Basin coal (Queensland, Australia)",8,{location:"Queensland, Australia",owner:"BHP + Glencore + Anglo American + Peabody",desc:"World's largest met-coal export region; thermal coal also significant."});
+n("o_coal_id","Indonesian thermal coal (Kalimantan + Sumatra)",8,{location:"Indonesia",owner:"Adaro + Bumi + Bayan",desc:"World's largest thermal-coal exporter; supplies Chinese + Indian power plants."});
+n("o_coal_us","Powder River Basin coal",8,{location:"Wyoming + Montana, USA",owner:"Peabody + Arch Resources",desc:"Largest U.S. coal basin; sub-bituminous low-sulfur thermal coal."});
+n("o_coal_cn","Shanxi + Inner Mongolia coal",8,{location:"China",owner:"China Energy + Shenhua + others",desc:"World's largest coal-producing region — feeds the bulk of Chinese power generation."});
+
+// Hydro/wind/solar resources are diffuse — represent as natural-source nodes
+n("o_hydro_global","Hydropower watersheds",8,{location:"Yangtze, St. Lawrence, Amazon, Norway fjords",desc:"Renewable but constrained by climate (drought reduced hydro output 2022-23 in Europe + China)."});
+n("o_solar_irradiance","Solar irradiance (sunlight)",8,{location:"global, especially MENA + India + Australia",desc:"~1 kW/m² peak; effectively unlimited but requires panels (which are made of polysilicon → see Spruce Pine quartz)."});
+n("o_wind_global","Wind resources",8,{location:"North Sea, Texas Panhandle, Gobi, Patagonia",desc:"~7 m/s+ wind classes economically viable. Offshore tends to be steadier."});
+n("o_geo_iceland","Geothermal — Iceland + Pacific Ring of Fire",8,{location:"Iceland, Indonesia, Kenya, Philippines",desc:"Tectonically active basaltic crust transfers heat from magma at ~5–10 km depth."});
+
+// Fuel → power plant
+[
+ ["m_natgas","r_pp_natgas"],
+ ["m_uranium_lowenrich","r_pp_nuclear"],
+ ["m_coal_thermal","r_pp_coal"],
+ ["o_hydro_global","r_pp_hydro"],
+ ["o_solar_irradiance","r_pp_solar"],
+ ["o_wind_global","r_pp_wind"],
+ ["o_geo_iceland","r_pp_geo"],
+ // Coal mines → m_coal
+ ["m_coal_thermal","o_coal_au"],
+ ["m_coal_thermal","o_coal_id"],
+ ["m_coal_thermal","o_coal_us"],
+ ["m_coal_thermal","o_coal_cn"],
+ ["m_coal_met","o_coal_au"],
+ ["m_coal_met","o_coal_us"],
+ // Grid mixes → underlying plant types
+ ["r_pp_taiwan_grid","r_pp_natgas"],
+ ["r_pp_taiwan_grid","r_pp_coal"],
+ ["r_pp_taiwan_grid","r_pp_nuclear"],
+ ["r_pp_korea_grid","r_pp_nuclear"],
+ ["r_pp_korea_grid","r_pp_coal"],
+ ["r_pp_korea_grid","r_pp_natgas"],
+ // Electricity sourced from all plant types
+ ["m_electricity","r_pp_natgas"],
+ ["m_electricity","r_pp_nuclear"],
+ ["m_electricity","r_pp_coal"],
+ ["m_electricity","r_pp_hydro"],
+ ["m_electricity","r_pp_solar"],
+ ["m_electricity","r_pp_wind"],
+ ["m_electricity","r_pp_geo"],
+ ["m_electricity","r_pp_taiwan_grid"],
+ ["m_electricity","r_pp_korea_grid"],
+].forEach(([a,b])=>l(a,b));
+
+// Major facilities → electricity (illustrative; chain visible from any of them)
+const ELECTRIFY = [
+ // Taiwan-grid users
+ "f_tsmc_18","f_tsmc_12","f_tsmc_advanced","f_tsmc_jasm","f_largan","f_micron_taichung",
+ // Korea-grid users
+ "f_samsung_pyong","f_samsung_hwa","f_skhynix_m16","f_skhynix_m15","f_lgd_paju","f_sd_asan",
+ // China users
+ "f_boe_b9","f_catl_ningde","f_catl_yibin","f_byd_shenzhen","f_atl_ningde",
+ // U.S. users
+ "f_tsmc_az","f_intel_ohio","f_intel_az","f_micron_boise","f_corning","f_wolfspeed",
+ "f_aws_dc","f_azure_dc","f_google_dc",
+ "f_tesla_4680","f_panasonic_reno",
+ "a_tesla_texas","a_tesla_fremont","a_tesla_lathrop","a_lly_indy",
+ // Defense
+ "a_lmt_fortworth","a_noc_palmdale","a_rtx_pw_eh","a_gd_eb_groton","a_hii_newport",
+ "f_aerojet","f_amerpac","f_bwxt","f_doe_pantex",
+ // Europe
+ "f_asml","a_airbus_toulouse","a_airbus_hamburg","a_bae_warton","f_rolls_derby",
+ "a_nvo_kal","a_lly_kinsale",
+ // Japan
+ "f_sony_kumamoto","f_shinetsu","f_sumco","f_panasonic_osaka","a_sony_kisarazu",
+ // Auto
+ "a_tesla_sh","a_tesla_berlin","a_toyota_motom","a_toyota_kentucky","a_vw_wolfsburg",
+ "a_porsche_zuff","a_byd_xian","a_gm_factoryzero","a_ford_dearborn",
+ // Refineries also need power
+ "a_aramco_jazan","a_xom_baytown","a_shel_pernis","a_cvx_richmond","a_bp_whiting",
+ "f_aramco_sadara","f_xom_baytown_chem","f_shell_pulau",
+ "r_chalco","r_codelco_ventanas","r_lynas_kuantan","r_btr","r_posco","r_tsingshan_imip",
+ "r_ganfeng_xinyu","r_huayou","r_wacker","r_hemlock",
+ // Pharma CDMOs
+ "f_lonza","f_wuxi","f_samsung_bio","f_lly_research",
+ // Aerospace/composite plants
+ "f_mhi_nagoya","f_spirit_wichita","r_toray_carbon",
+];
+ELECTRIFY.forEach(id=>l(id,"m_electricity"));
+
+// Specific grid memberships (where useful for storytelling)
+[
+ ["m_electricity","r_pp_taiwan_grid"],
+ ["f_tsmc_18","r_pp_taiwan_grid"],
+ ["f_tsmc_12","r_pp_taiwan_grid"],
+ ["f_tsmc_advanced","r_pp_taiwan_grid"],
+ ["f_samsung_pyong","r_pp_korea_grid"],
+ ["f_skhynix_m16","r_pp_korea_grid"],
+].forEach(([a,b])=>l(a,b));
+
 /* --- Mark existing nodes that have no viable alternatives ------------- */
+/* Each entry has a description AND a "workaround" that explains how
+   sanctions / disruption are routed around in practice. */
 const NO_ALT = {
- "f_asml":"ASML is the sole producer of EUV lithography on Earth. Without ASML, no chip ≤7nm gets made — period.",
- "f_tsmc_18":"TSMC is the only foundry making 3nm chips in volume. Samsung 3nm yields lag significantly.",
- "f_tsmc_advanced":"TSMC controls ~95% of CoWoS advanced-packaging output through 2025. ASE + Amkor cannot match volume.",
- "f_skhynix_m16":"SK Hynix is the only volume HBM3e supplier to Nvidia for 2024 H200/B200; Samsung qualification has slipped repeatedly.",
- "f_corning":"Corning's fusion-drawn aluminosilicate glass (Gorilla Glass + Apple Ceramic Shield) — no other manufacturer at scale.",
- "f_largan":"Largan supplies the majority of premium smartphone optics. Genius + Sunny Optical can't yet match top-bin yield.",
- "f_sony_kumamoto":"Sony is the only volume producer of micro-OLED panels for Vision Pro + Quest Pro. BOE is years behind.",
- "o_spruce":"Spruce Pine, NC is the only meaningful source of ultra-high-purity quartz for silicon-ingot crucibles. No equivalent deposit exists.",
- "o_bayan_obo":"Bayan Obo + China downstream account for ~85% of HEAVY rare-earth refining. Lynas + MP cover only LIGHT REE at scale.",
- "r_tsingshan_imip":"Tsingshan's HPAL+RKEF in Indonesia produces ~30% of world battery-grade nickel; no equivalent ex-China project online before 2027.",
- "r_vsmpo":"VSMPO Russia supplies ~30% of aerospace-grade titanium sponge. Boeing/Airbus actively seek alternates but at lower scale.",
- "r_toray_carbon":"Toray dominates aerospace carbon-fiber. Hexcel + Mitsubishi Rayon are smaller alternates.",
- "a_foxconn_zheng":"Half of all iPhones ship from this single Foxconn campus. India + Vietnam diversification is years from parity.",
- "a_nvo_kal":"Novo Nordisk Kalundborg has been the primary semaglutide site for years; Catalent acquisition adds capacity but Kalundborg still dominant.",
- "o_ghawar":"Ghawar is the largest conventional oilfield ever discovered (~3.8 Mb/d at peak). No replacement asset exists anywhere on Earth.",
- "f_lonza":"Lonza Visp is the largest peptide-CDMO line — relevant for tirzepatide + semaglutide synthesis at scale. Few alternates can match.",
+ "f_asml":{
+   why:"ASML is the sole producer of EUV lithography on Earth. Without ASML, no chip ≤7nm gets made — period.",
+   workaround:"None at the leading edge. Canon Nanoimprint and SMEE (China) are years behind on different physics. China sanctions response: stockpile DUV tools + buy used ArF, hand-stitch multi-patterning at 14/7nm equivalents. Cannot reach 5/3nm without EUV."
+ },
+ "f_tsmc_18":{
+   why:"TSMC is the only foundry making 3nm chips in volume. Samsung 3nm yields lag significantly.",
+   workaround:"Apple/Nvidia/Qualcomm have no Plan B at 3nm in 2025. If Taiwan production halts, the world drops back to 5nm at TSMC Arizona / Samsung Pyeongtaek — limited volume, ~12-18 months to ramp."
+ },
+ "f_tsmc_advanced":{
+   why:"TSMC controls ~95% of CoWoS advanced-packaging output through 2025. ASE + Amkor cannot match volume.",
+   workaround:"Samsung I-Cube and Intel EMIB are functional alternatives but qualified by few customers. Nvidia is single-sourced on TSMC CoWoS for B200; capacity expansion is the bottleneck."
+ },
+ "f_skhynix_m16":{
+   why:"SK Hynix is the only volume HBM3e supplier to Nvidia for 2024 H200/B200; Samsung qualification has slipped repeatedly.",
+   workaround:"Micron HBM3e qualified late 2024 — now producing at modest volume. Samsung HBM3e finally qualified by Nvidia early 2025 but with thermal-throttling caveats. Multi-source achievable by mid-2025."
+ },
+ "f_corning":{
+   why:"Corning's fusion-drawn aluminosilicate glass (Gorilla Glass + Apple Ceramic Shield) — no other manufacturer at scale.",
+   workaround:"AGC (Asahi) Dragontrail glass + Schott Xensation are technical alternatives used on mid-tier phones. Apple co-funded Corning's Harrodsburg plant precisely to avoid alternatives."
+ },
+ "f_largan":{
+   why:"Largan supplies the majority of premium smartphone optics. Genius + Sunny Optical can't yet match top-bin yield.",
+   workaround:"Sunny Optical has improved enough to be #2 at top OEMs. Apple deliberately keeps Largan + GSEO + Sunny as multi-source for mid-tier iPhones; Pro models still Largan-dominant."
+ },
+ "f_sony_kumamoto":{
+   why:"Sony is the only volume producer of micro-OLED panels for Vision Pro + Quest Pro. BOE is years behind.",
+   workaround:"BOE B-OLED + LG Display micro-OLED in dev. Apple has been single-sourced on Sony for Vision Pro — scaling deeper into Sony Atsugi 2025+. No mass-market alternative through 2026."
+ },
+ "o_spruce":{
+   why:"Spruce Pine, NC is the only meaningful source of ultra-high-purity quartz for silicon-ingot crucibles. No equivalent deposit exists.",
+   workaround:"None. The 2024 Hurricane Helene shutdown of Sibelco/Quartz Corp Spruce Pine plants briefly threatened global chip output. Synthetic quartz alternatives exist but cost ~10× and have lower yield."
+ },
+ "o_bayan_obo":{
+   why:"Bayan Obo + China downstream account for ~85% of HEAVY rare-earth refining. Lynas + MP cover only LIGHT REE at scale.",
+   workaround:"Heavy REE (Dy/Tb) is ~98% Chinese. Lynas Kalgoorlie cracking + leaching plant (2024 commissioning) + MP Stage III + Australian Strategic Materials are first-of-kind ex-China heavy-REE refiners — small initial scale, full ramp 2026-28. Until then: Western magnet makers pay China-set prices and accept export-license risk."
+ },
+ "r_tsingshan_imip":{
+   why:"Tsingshan's HPAL+RKEF in Indonesia produces ~30% of world battery-grade nickel; no equivalent ex-China project online before 2027.",
+   workaround:"Vale Canada (Sudbury, Long Harbour) + BHP Nickel West (sold 2024) + Talon Tamarack (Minnesota, 2027+) are western-aligned alternatives. Tesla + Ford locked in offtake from Vale + Talon. IRA tax credits push BEV makers to non-Chinese-controlled nickel."
+ },
+ "r_vsmpo":{
+   why:"VSMPO Russia historically supplied ~30% of aerospace-grade titanium sponge.",
+   workaround:"Boeing fully severed VSMPO direct purchases March 2022 — now sourced from TIMET (UK + Henderson NV), ATI (Albany OR), Toho Titanium (Chigasaki Japan), and IHI/Kobe (Japan). Airbus reduced exposure ~40% but did NOT fully sever (no EU sanction on Ti). Combined non-Russian capacity covers ~70% of pre-war demand; the gap is filled by drawdown of pre-war inventory + Chinese Ti (Pangang). Re-melt scrap now feeds ~30% of supply."
+ },
+ "r_toray_carbon":{
+   why:"Toray dominates aerospace carbon-fiber.",
+   workaround:"Hexcel (Stamford CT) + Mitsubishi Chemical Carbon Fiber (Sacramento) + Solvay-Cytec are qualified alternates for specific platforms. 787 wing remains Toray-only. New aircraft (777X, MC-21) source from multiple."
+ },
+ "a_foxconn_zheng":{
+   why:"Half of all iPhones ship from this single Foxconn campus.",
+   workaround:"After the 2022 lockdown, Apple accelerated Tata + Foxconn India (Sriperumbudur, Hosur) and Pegatron Vietnam. India share rose from ~5% (2022) to ~14% (2024) — projected 25% by 2025. Diversification is happening but slowly; a Zhengzhou shutdown in any given quarter still dominates supply."
+ },
+ "a_nvo_kal":{
+   why:"Novo Nordisk Kalundborg has been the primary semaglutide site for years.",
+   workaround:"Novo's $11B Catalent acquisition (Dec 2024) brought Bloomington IN + Anagni Italy + Brussels online — relieves the bottleneck but Kalundborg remains the largest single semaglutide site. Lilly Indianapolis is a separate-supply alternative (different molecule — tirzepatide)."
+ },
+ "o_ghawar":{
+   why:"Ghawar is the largest conventional oilfield ever discovered (~3.8 Mb/d at peak). No replacement asset exists anywhere on Earth.",
+   workaround:"Substitution at MARGIN: Permian (USA), Guyana (Stabroek), Vaca Muerta (Argentina), Brazil pre-salt are non-OPEC growth basins. None replaces Ghawar's scale, geological simplicity, or production cost (~$3/bbl). Strategic Petroleum Reserves provide ~30 days of buffer for major importers."
+ },
+ "f_lonza":{
+   why:"Lonza Visp is one of the largest peptide-CDMO lines — used for tirzepatide + semaglutide synthesis at scale.",
+   workaround:"Bachem (Bubendorf CH) + PolyPeptide (Strasbourg + Malmö) are direct competitors at smaller scale. Both LLY + NVO have brought peptide production in-house (RTP NC, Kalundborg) to reduce CDMO dependency."
+ },
+ "f_aerojet":{
+   why:"Aerojet Rocketdyne is the dominant U.S. solid-rocket-motor producer for medium-range tactical missiles (Patriot, Tomahawk, Stinger).",
+   workaround:"Northrop Grumman ABL is the alternate for large solid motors (ICBM stages, NASA SLS) but has limited Patriot-class capacity. After demand surge from Ukraine 2022-24, U.S. DOD funded NG + Aerojet to add ~50% capacity by 2026. No allied alternatives are export-cleared."
+ },
+ "f_amerpac":{
+   why:"American Pacific Henderson NV is the only U.S. ammonium-perchlorate producer (rocket-motor oxidizer).",
+   workaround:"None for U.S. defense use. ITAR + DLA Strategic Materials block Chinese AP imports. After the 1988 PEPCON explosion destroyed U.S. AP capacity, Henderson was rebuilt as the single supplier — and remains a single-point-of-failure 36 years later. Hydroxylammonium nitrate (HAN) green-propellant alternatives are not flight-qualified for legacy missiles."
+ },
+ "f_bwxt":{
+   why:"BWXT Lynchburg is the sole U.S. naval-reactor heavy-component supplier + fuel fabricator.",
+   workaround:"None domestic. UK uses Rolls-Royce Submarines (Derby) for Astute/Dreadnought. AUKUS deal will give Australia HEU-fueled subs from BWXT — straining capacity further. BWXT expanding via $2B+ govt-funded plant additions."
+ },
+ "r_holston":{
+   why:"BAE Holston Army Ammo Plant (Tennessee) is the only U.S. military RDX/HMX explosive plant.",
+   workaround:"Allied imports (UK Royal Ordnance, India Ordnance Factory Board, Australia Mulwala) cover surge demand during Holston outages. Ukraine-driven 155mm shell ramp 2023-25 forced multi-billion-dollar Holston modernization. India + Poland are emerging Allied capacity."
+ },
+ "f_doe_pantex":{
+   why:"DOE Pantex (Amarillo TX) is the only U.S. nuclear-weapon final-assembly + dismantlement site.",
+   workaround:"None possible — single site by treaty + security design. Decades of deferred maintenance; Y-12 (Oak Ridge) handles secondaries + uranium components in parallel."
+ },
+ "a_lmt_fortworth":{
+   why:"Only F-35 prime final-assembly line on Earth.",
+   workaround:"Cameri (Italy, Leonardo) + Nagoya (Mitsubishi Heavy) Final Assembly & Check-Out (FACO) sites integrate aircraft for European + Asian customers — but all three lines depend on parts shipped from Fort Worth + 1,800+ U.S. suppliers. Loss of Fort Worth halts the entire program."
+ },
+ "a_noc_palmdale":{
+   why:"Only U.S. stealth-bomber assembly facility (B-2 historically, B-21 now).",
+   workaround:"None — Plant 42 is the secured DOD complex. Diversified supplier network (Spirit, BAE, Pratt & Whitney) feeds Palmdale; final integration is irreplaceable in time-frame."
+ },
+ "a_gd_eb_groton":{
+   why:"GD Electric Boat (Groton CT + Quonset Point RI) is one of two U.S. nuclear-submarine builders.",
+   workaround:"Co-builder HII Newport News splits Virginia-class final assembly + builds carriers. AUKUS adds Australian Osborne shipyard mid-2030s. Industrial-base bottleneck: skilled welders, casting suppliers, BWXT reactor fuel — multi-year wait times."
+ },
+ "a_gd_lima":{
+   why:"Only U.S. main-battle-tank manufacturing plant.",
+   workaround:"None — Lima Army Tank Plant is government-owned, GD-operated. Plant retention is congressional priority. M1 Abrams turret armor + DU components are co-produced at Anniston AL Army Depot."
+ },
+ "a_hii_newport":{
+   why:"Only U.S. nuclear-aircraft-carrier shipyard.",
+   workaround:"None — Newport News VA is irreplaceable for Ford-class carriers. Co-builds Columbia subs with GD EB. Workforce + drydock constraints mean no carrier can be replaced in <5 years."
+ },
+ "o_uranium_kz":{
+   why:"Kazakhstan produces ~40% of world uranium (Inkai, Tortkuduk in-situ recovery).",
+   workaround:"Cameco Cigar Lake (Canada, ~13% world supply) + Olympic Dam (BHP Australia) + Niger (Orano, post-coup uncertain) + U.S. ISR (Wyoming) cover most of the rest. After Russia's enrichment-services dominance was sanctioned 2024, KZ's mining role grew more strategic."
+ },
 };
-Object.entries(NO_ALT).forEach(([id,reason])=>{
+Object.entries(NO_ALT).forEach(([id,info])=>{
   const x = N.find(n=>n.id===id); if(!x) return;
-  x.noAlt = reason;
+  // Support both {why, workaround} objects and bare strings (legacy)
+  if (typeof info === "string") { x.noAlt = info; }
+  else { x.noAlt = info.why; x.workaround = info.workaround; }
   x.flags = (x.flags||[]).concat(["🔒 NO VIABLE ALTERNATIVE"]);
 });
 
@@ -1895,7 +2106,7 @@ function renderDetail(d, keep){
 
   const flagBadges = (d.flags||[]).map(f=>`<span class="tag warn">${f}</span>`).join("");
   const sectorBadge = d.tier===1 && d.sector ? `<span class="tag sector" style="background:${sectors[d.sector].color}26;color:${sectors[d.sector].color}">${sectors[d.sector].name}</span>` : "";
-  const noAltBlock = d.noAlt?`<div style="margin:10px 0;padding:8px 10px;background:#3a1f1f;border:1px solid #6e3a3a;border-radius:6px;font-size:12px;color:#ffcdcd;line-height:1.5"><strong style="color:#ff9aa2">🔒 NO VIABLE ALTERNATIVE</strong><br>${d.noAlt}</div>`:"";
+  const noAltBlock = d.noAlt?`<div style="margin:10px 0;padding:10px 12px;background:#3a1f1f;border:1px solid #6e3a3a;border-radius:6px;font-size:12px;color:#ffcdcd;line-height:1.55"><strong style="color:#ff9aa2">🔒 NO VIABLE ALTERNATIVE</strong><br>${d.noAlt}${d.workaround?`<br><br><strong style="color:#ffd166">⚙ How the world routes around this</strong><br><span style="color:#e7ddc7">${d.workaround}</span>`:""}</div>`:"";
 
   // Retailer "stocks from" section
   let stocksBlock = "";
@@ -1975,9 +2186,16 @@ Object.entries(sectors).forEach(([k,v])=>{
   const o = document.createElement("option"); o.value=k; o.textContent=v.name; sectorSel.appendChild(o);
 });
 sectorSel.addEventListener("change", e=>{
-  const sec = e.target.value;
+  applySectorFilter(e.target.value);
+});
+
+function applySectorFilter(sec){
+  // sync dropdown
+  if (sectorSel.value !== sec) sectorSel.value = sec;
+  // sidebar list
+  filterSidebarBySector(sec);
   if(!sec){ clearFocus(); return; }
-  // gather all nodes connected to any company in this sector
+  // chart: light up the sector's full subgraph
   const keep = new Set();
   N.filter(n=>n.tier===1 && n.sector===sec).forEach(c=>{
     chainFrom(c.id).forEach(id=>keep.add(id));
@@ -1985,9 +2203,16 @@ sectorSel.addEventListener("change", e=>{
   node.classed("dim", n=>!keep.has(n.id));
   link.classed("dim", e=>!(keep.has(e.source.id) && keep.has(e.target.id)));
   banner.style("display","block").text(`Sector: ${sectors[sec].name} — ${keep.size} nodes`);
+}
+
+// Make the sector LEGEND items clickable too (they apply the filter)
+document.querySelectorAll("#sectorLegend label").forEach((el,i)=>{
+  const k = Object.keys(sectors)[i];
+  el.style.cursor = "pointer";
+  el.onclick = ()=>applySectorFilter(k);
 });
 
-// Companies grouped by sector
+// Companies grouped by sector — sidebar tags each item with its sector for filtering
 const companiesEl = document.getElementById("companies");
 const bySector = {};
 N.filter(n=>n.tier===1).forEach(c=>{
@@ -1995,9 +2220,12 @@ N.filter(n=>n.tier===1).forEach(c=>{
 });
 Object.entries(sectors).forEach(([sk,sv])=>{
   const list = bySector[sk]; if(!list) return;
-  const g = document.createElement("div"); g.className="group"; g.textContent=sv.name; companiesEl.appendChild(g);
+  const g = document.createElement("div"); g.className="group"; g.textContent=sv.name;
+  g.setAttribute("data-sector",sk); companiesEl.appendChild(g);
   list.forEach(c=>{
     const b = document.createElement("button");
+    b.setAttribute("data-sector",sk);
+    b.setAttribute("data-company-id",c.id);
     b.innerHTML = `<span class="swatch" style="background:${sv.color}"></span> ${c.label}`;
     b.onclick = ()=>{
       document.querySelectorAll(".companies button").forEach(x=>x.classList.remove("active"));
@@ -2008,6 +2236,16 @@ Object.entries(sectors).forEach(([sk,sv])=>{
     companiesEl.appendChild(b);
   });
 });
+
+// Filter sidebar by sector (hide non-matching company buttons + group headers)
+function filterSidebarBySector(sec){
+  document.querySelectorAll(".companies button").forEach(btn=>{
+    btn.style.display = (!sec || btn.dataset.sector===sec) ? "" : "none";
+  });
+  document.querySelectorAll(".companies .group").forEach(grp=>{
+    grp.style.display = (!sec || grp.dataset.sector===sec) ? "" : "none";
+  });
+}
 
 // Chokepoint quick-jumps
 const chokeIds = ["f_asml","f_tsmc_advanced","f_tsmc_18","f_skhynix_m16","o_spruce","o_bayan_obo","r_tsingshan_imip","f_corning","f_largan","f_sony_kumamoto","a_foxconn_zheng","o_kamoto","o_ghawar","r_vsmpo","r_toray_carbon","a_nvo_kal","f_wuxi","f_lonza","a_lmt_fortworth","a_noc_palmdale","f_aerojet","f_amerpac","f_bwxt","r_holston","a_gd_eb_groton","a_gd_lima","a_hii_newport"];
@@ -2030,8 +2268,18 @@ document.getElementById("search").addEventListener("input", e=>{
   if(hit){ focus(hit); svg.transition().duration(500).call(zoom.translateTo, hit.x, hit.y); }
 });
 
-document.getElementById("resetBtn").onclick = ()=>{ clearFocus(); document.getElementById("search").value=""; sectorSel.value=""; fit(); };
-document.getElementById("clearBtn").onclick = clearFocus;
+document.getElementById("resetBtn").onclick = ()=>{
+  clearFocus();
+  document.getElementById("search").value="";
+  sectorSel.value="";
+  filterSidebarBySector("");
+  fit();
+};
+document.getElementById("clearBtn").onclick = ()=>{
+  clearFocus();
+  sectorSel.value="";
+  filterSidebarBySector("");
+};
 document.getElementById("fitBtn").onclick = fit;
 document.getElementById("zoomIn").onclick = ()=>svg.transition().duration(300).call(zoom.scaleBy, 1.4);
 document.getElementById("zoomOut").onclick = ()=>svg.transition().duration(300).call(zoom.scaleBy, 0.7);
