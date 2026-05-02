@@ -1,7 +1,7 @@
-# Mag 7 Supply Chain Explorer
+# TOP 100 COMPANIES Supply Chain Explorer down to
 
-Interactive 8-tier supply-chain map of the Magnificent 7
-(Apple, Microsoft, Alphabet, Amazon, Meta, Nvidia, Tesla):
+Interactive 8-tier supply-chain map of the top companies of the world all the way to mines and electric grid. 
+
 
 **Companies → Products → Assembly Plants → Components → Specialty Fabs → Refined Materials → Refineries → Mines**
 
