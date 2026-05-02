@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Global Supply Chain Explorer — Top 50 Companies</title>
+<title>Global Supply Chain Explorer — Top 100+ Companies</title>
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <style>
   :root{
@@ -100,7 +100,7 @@
 <div id="app">
   <header>
     <strong>Global Supply Chain Explorer</strong>
-    <span class="sub">50 of the world's largest companies — 10 sectors — full chain to mine / well / farm</span>
+    <span class="sub">100+ of the world's largest companies — 12 sectors — full chain to mine / well / farm. 🔒 = no viable alternative</span>
     <span style="margin-left:auto" class="sub">Click any node to trace its chain</span>
   </header>
 
@@ -190,6 +190,8 @@ const sectors = {
   industrial: {name:"Industrial",     color:"#6c8caf"},
   media:      {name:"Media / Telecom",color:"#4cb8c4"},
   ecomm:      {name:"E-commerce",     color:"#9bd14a"},
+  defense:    {name:"Defense / Aerospace",color:"#5a7a8c"},
+  mining:     {name:"Mining & Materials",color:"#a06a4a"},
 };
 function sectorColor(d){ return d.tier===1 && d.sector ? sectors[d.sector].color : tiers[d.tier].color; }
 
@@ -279,8 +281,85 @@ n("siemens","Siemens",1,{sector:"industrial",hq:"Munich, Germany",capacity:"~€
 n("dis","Walt Disney",1,{sector:"media",hq:"Burbank, USA",capacity:"~$91B FY24 revenue",desc:"Parks + Studios + Disney+ + ESPN + ABC + Pixar + Marvel + Lucasfilm + 20th Century. Streaming runs on AWS + Google Cloud."});
 n("nflx","Netflix",1,{sector:"media",hq:"Los Gatos, USA",capacity:"~$37B 2024 revenue, ~283M subs",desc:"World's largest paid streaming service. Open Connect CDN appliances colocated in 175+ countries; encoding on AWS."});
 
-// E-commerce (1)
+// E-commerce (1 + 3 new)
 n("baba","Alibaba Group",1,{sector:"ecomm",hq:"Hangzhou, China",capacity:"~$130B FY24 revenue",desc:"Taobao + Tmall + AliExpress + Alibaba.com + Cainiao logistics + Alibaba Cloud + Lazada. Largest e-commerce player by GMV in China."});
+n("jd","JD.com",1,{sector:"ecomm",hq:"Beijing, China",capacity:"~$152B FY23 revenue",desc:"China's #2 e-tailer, runs its own nationwide warehouse + delivery fleet (unlike Alibaba's lighter asset model). Famous for next-day delivery on appliances and electronics."});
+n("pdd","PDD Holdings",1,{sector:"ecomm",hq:"Shanghai, China + Dublin",capacity:"~$54B FY24 revenue",desc:"Pinduoduo (China) + Temu (global). Group-buying model that exploded into U.S./EU via cross-border direct shipping; fastest-growing e-commerce app in 2023-24."});
+n("meli","MercadoLibre",1,{sector:"ecomm",hq:"Buenos Aires + Montevideo",capacity:"~$15B 2024 revenue",desc:"Latin America's e-commerce + fintech leader (MercadoPago). Operates in 18 countries; the Amazon of LatAm."});
+
+/* ----- ADDITIONS: more Big Tech (4) ----- */
+n("sap","SAP",1,{sector:"tech",hq:"Walldorf, Germany",capacity:"~€34B 2024 revenue",desc:"World's #1 enterprise resource planning (ERP) software. S/4HANA runs the back-office of most of the Fortune 500."});
+n("tcehy","Tencent Holdings",1,{sector:"tech",hq:"Shenzhen, China",capacity:"~RMB 661B 2024 revenue",desc:"WeChat super-app (~1.3B users), world's largest gaming publisher (Riot, Epic stake, Supercell), Tencent Cloud, fintech (WeChat Pay)."});
+n("ibm","IBM",1,{sector:"tech",hq:"Armonk, USA",capacity:"~$62B 2024 revenue",desc:"Mainframes (z16, runs ~70% of global financial transactions), Red Hat (OpenShift), Watsonx AI, consulting. Quantum-computing leader."});
+n("csco","Cisco Systems",1,{sector:"tech",hq:"San Jose, USA",capacity:"~$54B FY24 revenue",desc:"World's #1 networking gear (Catalyst switches, routers, firewalls). Splunk acquisition 2024 boosted security/observability."});
+
+/* ----- ADDITIONS: more Semi (5) ----- */
+n("txn","Texas Instruments",1,{sector:"semi",hq:"Dallas, USA",capacity:"~$16B 2024 revenue",desc:"Largest analog-IC + embedded-MCU maker. Powers everything from cars to dishwashers. Owns its fabs (300mm in Sherman TX, Lehi UT)."});
+n("amat_co","Applied Materials",1,{sector:"semi",hq:"Santa Clara, USA",capacity:"~$27B FY24 revenue",desc:"World's #1 semiconductor-equipment maker. Deposition, etch, ion-implant, CMP — the tools every fab buys."});
+n("lrcx_co","Lam Research",1,{sector:"semi",hq:"Fremont, USA",capacity:"~$15B FY24 revenue",desc:"Plasma etch + atomic-layer deposition leader; critical for 3D NAND and leading-edge logic."});
+n("klac_co","KLA",1,{sector:"semi",hq:"Milpitas, USA",capacity:"~$10B FY24 revenue",desc:"Process-control inspection + metrology near-monopoly. Every fab needs KLA tools to find defects."});
+n("mtk","MediaTek",1,{sector:"semi",hq:"Hsinchu, Taiwan",capacity:"~NT$ 528B 2024 revenue",desc:"World's #1 smartphone-SoC maker by volume (Dimensity). Runs most non-Apple, non-Samsung-flagship phones."});
+
+/* ----- ADDITIONS: more Pharma (4) ----- */
+n("abbv","AbbVie",1,{sector:"pharma",hq:"North Chicago, USA",capacity:"~$56B 2024 revenue",desc:"Spun out from Abbott 2013. Humira historical blockbuster (now off-patent); Skyrizi + Rinvoq + Botox + Allergan."});
+n("nvs","Novartis",1,{sector:"pharma",hq:"Basel, Switzerland",capacity:"~$50B 2024 revenue",desc:"Cosentyx (psoriasis), Entresto (heart failure), Pluvicto (radioligand cancer therapy), gene-therapy Zolgensma."});
+n("tmo","Thermo Fisher Scientific",1,{sector:"pharma",hq:"Waltham, USA",capacity:"~$43B 2024 revenue",desc:"World's largest scientific instruments + bioprocessing company. Bioreactors, mass specs, electron microscopes; powers ~75% of pharma R&D + manufacturing."});
+n("dhr","Danaher",1,{sector:"pharma",hq:"Washington DC, USA",capacity:"~$24B 2024 revenue",desc:"Diversified life-sciences + diagnostics: Cytiva (bioprocessing), Beckman, Leica, Pall, SCIEX. Cytiva's columns sit inside every biologic CDMO."});
+
+/* ----- ADDITIONS: more Energy (3) ----- */
+n("cop","ConocoPhillips",1,{sector:"energy",hq:"Houston, USA",capacity:"~$58B 2024 revenue, ~1.9 Mboe/d",desc:"Largest pure-play U.S. independent E&P (no refining, no retail). Permian + Eagle Ford + Alaska + LNG (Marathon acquisition 2024)."});
+n("ptr","PetroChina",1,{sector:"energy",hq:"Beijing, China",capacity:"~$485B 2024 revenue",desc:"Listed arm of CNPC. China's #1 oil + gas producer. Operates Daqing + Changqing fields and most Chinese gas pipelines."});
+n("eqnr","Equinor",1,{sector:"energy",hq:"Stavanger, Norway",capacity:"~$103B 2024 revenue",desc:"Norway's state-controlled oil major. Largest North Sea operator (Johan Sverdrup); leading offshore-wind investor (Dogger Bank, Empire Wind)."});
+
+/* ----- ADDITIONS: more Finance (4) ----- */
+n("bac","Bank of America",1,{sector:"finance",hq:"Charlotte, USA",capacity:"~$192B 2024 revenue",desc:"Second-largest U.S. bank by assets (~$3.3T). Merrill Lynch wealth + retail banking + consumer cards."});
+n("wfc","Wells Fargo",1,{sector:"finance",hq:"San Francisco, USA",capacity:"~$82B 2024 revenue",desc:"Top-4 U.S. bank. Mortgage origination leader; under Fed asset cap since 2018 fake-account scandal."});
+n("gs","Goldman Sachs",1,{sector:"finance",hq:"New York, USA",capacity:"~$53B 2024 revenue",desc:"Premier U.S. investment bank + asset management. Global M&A and equity-underwriting league leader."});
+n("ms","Morgan Stanley",1,{sector:"finance",hq:"New York, USA",capacity:"~$61B 2024 revenue",desc:"Wealth-management heavyweight (post-E*TRADE + Smith Barney); investment bank + institutional securities."});
+
+/* ----- ADDITIONS: more Auto (5) ----- */
+n("stla","Stellantis",1,{sector:"auto",hq:"Amsterdam (legal); ops in Detroit + Turin",capacity:"~€189B 2023 revenue, ~6.4M vehicles",desc:"Formed by FCA + PSA merger 2021. 14 brands: Jeep, Ram, Chrysler, Dodge, Peugeot, Citroën, Fiat, Alfa Romeo, Maserati, Opel, Vauxhall, DS, Lancia, Abarth."});
+n("mbg","Mercedes-Benz Group",1,{sector:"auto",hq:"Stuttgart, Germany",capacity:"~€146B 2024 revenue",desc:"Premium-segment focus post-2021 demerger from Daimler Truck. EQS + S-Class + GLE; AMG performance arm."});
+n("bmw","BMW Group",1,{sector:"auto",hq:"Munich, Germany",capacity:"~€143B 2024 revenue, ~2.5M cars",desc:"BMW + MINI + Rolls-Royce. Strong PHEV + i-series BEV ramp; Spartanburg SC is BMW's largest factory globally."});
+n("hmc","Honda Motor",1,{sector:"auto",hq:"Tokyo, Japan",capacity:"~$140B FY24 revenue, ~3.7M cars + ~17M motorcycles",desc:"Civic, CR-V, Accord; world's #1 motorcycle maker by units; Honda Aircraft (HondaJet)."});
+n("hyu","Hyundai Motor Group",1,{sector:"auto",hq:"Seoul, South Korea",capacity:"~$93B 2024 revenue",desc:"Hyundai + Kia + Genesis. ~7.3M vehicles 2023. E-GMP EV platform underpinning Ioniq 5/6, EV6, EV9."});
+
+/* ----- ADDITIONS: more Consumer (4) ----- */
+n("hms","Hermès International",1,{sector:"consumer",hq:"Paris, France",capacity:"~€15B 2024 revenue",desc:"Ultra-luxury — Birkin + Kelly bags famously waitlisted. Vertically integrated leather workshops in France; controls own crocodile farms."});
+n("orx","L'Oréal",1,{sector:"consumer",hq:"Clichy, France",capacity:"~€43B 2024 revenue",desc:"World's #1 cosmetics company. L'Oréal Paris, Maybelline, Lancôme, Kiehl's, NYX. Huge R&D in raw cosmetic ingredients."});
+n("ulvr","Unilever",1,{sector:"consumer",hq:"London, UK",capacity:"~€60B 2024 revenue",desc:"Dove, Knorr, Hellmann's, Magnum, Ben & Jerry's, Vaseline. ~3.4B people use a Unilever product daily."});
+n("mcd","McDonald's",1,{sector:"consumer",hq:"Chicago, USA",capacity:"~$26B 2024 revenue, ~40k restaurants",desc:"World's largest restaurant chain by revenue. Big Mac, fries, McCafé. Heavy real-estate company in disguise (~80% of locations on company-owned land)."});
+
+/* ----- ADDITIONS: more Retail (2) ----- */
+n("hd","Home Depot",1,{sector:"retail",hq:"Atlanta, USA",capacity:"~$152B FY24 revenue",desc:"World's largest home-improvement retailer. ~2,300 big-box stores. Major customer of building-materials makers + power-tool manufacturers (DeWalt = SWK)."});
+n("tgt","Target",1,{sector:"retail",hq:"Minneapolis, USA",capacity:"~$107B FY24 revenue",desc:"~1,950 stores. Heavy private-label (Up&Up, Good & Gather). Owned-brand penetration ~30% of sales."});
+
+/* ----- ADDITIONS: more Industrial (5) ----- */
+n("cat","Caterpillar",1,{sector:"industrial",hq:"Irving, USA",capacity:"~$64B 2024 revenue",desc:"World's #1 construction + mining equipment maker. Excavators, dump trucks (the 797F hauls 400 tons), bulldozers; also engines + locomotives."});
+n("hon","Honeywell",1,{sector:"industrial",hq:"Charlotte, USA",capacity:"~$38B 2024 revenue",desc:"Aerospace (avionics, APUs), industrial automation, performance materials, fluorine + low-GWP refrigerants. Quantum-computing arm Quantinuum."});
+n("abb","ABB",1,{sector:"industrial",hq:"Zürich, Switzerland",capacity:"~$32B 2024 revenue",desc:"Industrial robots (#2 globally after FANUC), drives, electrification, motors. Major rail + EV-charging supplier."});
+n("schn","Schneider Electric",1,{sector:"industrial",hq:"Rueil-Malmaison, France",capacity:"~€36B 2024 revenue",desc:"Power-management + grid + data-center electrical infrastructure. APC UPS systems; major Nvidia partner for AI-DC power delivery."});
+n("mmm","3M",1,{sector:"industrial",hq:"Maplewood, USA",capacity:"~$24B 2024 revenue",desc:"Scotch tape, Post-it, N95 respirators, abrasives, films, adhesives, dental composites. ~60,000 products. PFAS litigation pressure."});
+
+/* ----- ADDITIONS: NEW SECTOR — DEFENSE (7) ----- */
+n("lmt","Lockheed Martin",1,{sector:"defense",hq:"Bethesda, USA",capacity:"~$71B 2024 revenue",desc:"World's largest defense contractor. F-35 Lightning II prime (>2,500 produced), F-22, F-16, C-130, Sikorsky helicopters, Aegis combat system, Trident SLBMs, satellites."});
+n("rtx","RTX Corporation",1,{sector:"defense",hq:"Arlington, USA",capacity:"~$80B 2024 revenue",desc:"Formed 2020 from Raytheon + UTC. Three pillars: Pratt & Whitney (F135 + commercial GTF engines), Raytheon (Patriot, AMRAAM, Tomahawk, NASAMS), Collins Aerospace (avionics, oxygen, ejection seats)."});
+n("noc","Northrop Grumman",1,{sector:"defense",hq:"Falls Church, USA",capacity:"~$41B 2024 revenue",desc:"B-21 Raider stealth bomber (in production), B-2, F-35 center fuselage, Sentinel ICBM, Triton + Global Hawk drones, AESA radars (APG-81), JWST primary contractor."});
+n("gd","General Dynamics",1,{sector:"defense",hq:"Reston, USA",capacity:"~$48B 2024 revenue",desc:"Electric Boat (Virginia + Columbia-class submarines), Bath Iron Works (Arleigh Burke destroyers), Land Systems (M1 Abrams tank), Gulfstream (G700 business jets), Mission Systems (encryption + comms)."});
+n("bae","BAE Systems",1,{sector:"defense",hq:"London, UK",capacity:"~£26B 2024 revenue",desc:"UK's largest defense contractor. Eurofighter Typhoon partner, Type 26 frigate, F-35 EW system + aft fuselage, M777 howitzer, Tempest sixth-gen fighter, Bofors ammunition."});
+n("l3","L3Harris Technologies",1,{sector:"defense",hq:"Melbourne, FL, USA",capacity:"~$21B 2024 revenue",desc:"Tactical communications (radios, satcom), space sensors, electronic warfare. Acquired Aerojet Rocketdyne 2023 — now controls a critical share of U.S. solid-rocket-motor production."});
+n("airbus","Airbus",1,{sector:"defense",hq:"Toulouse, France / Leiden, NL",capacity:"~€69B 2024 revenue",desc:"Commercial: A320neo (best-seller of all time), A350 widebody. Defense: A400M military lift, Tiger + NH90 helicopters, Eurofighter partner. Space: Ariane launchers."});
+
+/* ----- ADDITIONS: more Media/Telecom (4) ----- */
+n("cmcsa","Comcast",1,{sector:"media",hq:"Philadelphia, USA",capacity:"~$124B 2024 revenue",desc:"Xfinity cable + broadband (~32M U.S. customers), NBCUniversal (NBC, Universal Pictures, Peacock), Sky (UK)."});
+n("vz","Verizon",1,{sector:"media",hq:"New York, USA",capacity:"~$134B 2024 revenue",desc:"Largest U.S. wireless carrier (~115M postpaid). 5G mmWave + C-band; FiOS fiber broadband."});
+n("att","AT&T",1,{sector:"media",hq:"Dallas, USA",capacity:"~$122B 2024 revenue",desc:"Wireless (~118M U.S.) + fiber. Spun off WarnerMedia 2022 to refocus on connectivity."});
+n("tmus","T-Mobile US",1,{sector:"media",hq:"Bellevue, USA",capacity:"~$81B 2024 revenue",desc:"Most valuable U.S. wireless carrier (passed VZ). Mid-band 5G leader post-Sprint merger."});
+
+/* ----- ADDITIONS: NEW SECTOR — Mining & Materials (3) ----- */
+n("bhp","BHP Group",1,{sector:"mining",hq:"Melbourne, Australia",capacity:"~$56B FY24 revenue",desc:"World's largest miner by market cap. Iron ore (Pilbara WAIO), Cu (Escondida + Olympic Dam), Ni (Nickel West), met coal (Queensland), potash (Jansen Saskatchewan)."});
+n("rio","Rio Tinto",1,{sector:"mining",hq:"London + Melbourne",capacity:"~$54B 2024 revenue",desc:"#2 miner globally. Iron ore (Pilbara), Al (bauxite Weipa + Boyne smelter), Cu (Oyu Tolgoi Mongolia, Kennecott Utah), Ti (Madagascar), boron, lithium (Rincon Argentina)."});
+n("glen","Glencore",1,{sector:"mining",hq:"Baar, Switzerland",capacity:"~$218B 2024 revenue (heavy trading)",desc:"World's largest commodity trader + diversified miner. Cu (Mt Isa, Mopani, Antapaccay, Las Bambas via stake), Co (Mutanda + KCC = world #1 cobalt), Zn, Ni, coal."});
 
 /* ----------------------------------------------------------------------------
    TIER 2 — PRODUCTS / SERVICES (each company's flagship outputs)
@@ -418,6 +497,103 @@ n("p_nflx_stream","Netflix streaming",2,{owner:"Netflix"});
 n("p_taobao","Taobao + Tmall + AliExpress",2,{owner:"Alibaba"});
 n("p_alicloud","Alibaba Cloud (Aliyun)",2,{owner:"Alibaba"});
 n("p_cainiao","Cainiao smart logistics",2,{owner:"Alibaba"});
+// JD / PDD / MELI
+n("p_jdmkt","JD Marketplace + Logistics",2,{owner:"JD.com",capacity:"~1,500 self-run warehouses"});
+n("p_temu","Pinduoduo China + Temu global",2,{owner:"PDD"});
+n("p_mercado","MercadoLibre + MercadoPago",2,{owner:"MercadoLibre"});
+
+// More Big Tech products
+n("p_s4hana","SAP S/4HANA ERP",2,{owner:"SAP",desc:"Runs back-office of most Fortune 500."});
+n("p_wechat","WeChat super-app",2,{owner:"Tencent",capacity:"~1.3B MAU"});
+n("p_tencentgame","Tencent gaming + Tencent Cloud",2,{owner:"Tencent"});
+n("p_zmainframe","IBM z16 mainframe + LinuxONE",2,{owner:"IBM",desc:"Runs ~70% of global financial txns."});
+n("p_redhat","Red Hat OpenShift + RHEL",2,{owner:"IBM"});
+n("p_catalyst","Cisco Catalyst + Nexus switches",2,{owner:"Cisco"});
+n("p_meraki","Cisco Meraki + Webex + Splunk",2,{owner:"Cisco"});
+
+// More Semi products
+n("p_txn_analog","TI analog ICs + MSP430 MCUs",2,{owner:"Texas Instruments"});
+n("p_amat_tools","Applied Materials deposition + etch tools",2,{owner:"Applied Materials"});
+n("p_lam_tools","Lam etch + ALD tools",2,{owner:"Lam Research"});
+n("p_kla_tools","KLA inspection + metrology",2,{owner:"KLA"});
+n("p_dimensity","MediaTek Dimensity 9400 SoC",2,{owner:"MediaTek"});
+
+// More Pharma products
+n("p_humira","Humira / Skyrizi / Botox",2,{owner:"AbbVie"});
+n("p_cosentyx","Cosentyx + Entresto + Pluvicto",2,{owner:"Novartis"});
+n("p_tmo_bioproc","Thermo Fisher bioprocessing tools",2,{owner:"Thermo Fisher",desc:"Bioreactors + media + filters used by every major biologic CDMO."});
+n("p_dhr_lifesci","Danaher Cytiva + Beckman + Pall",2,{owner:"Danaher"});
+
+// More Energy products
+n("p_cop_fuels","ConocoPhillips crude + LNG",2,{owner:"ConocoPhillips"});
+n("p_ptr_fuels","PetroChina crude + gas",2,{owner:"PetroChina"});
+n("p_eqnr_lng","Equinor crude + LNG + offshore wind",2,{owner:"Equinor"});
+
+// More Finance products
+n("p_bac","BoA banking + Merrill wealth",2,{owner:"Bank of America"});
+n("p_wfc","Wells Fargo banking + mortgage",2,{owner:"Wells Fargo"});
+n("p_gs","Goldman investment banking + asset mgmt",2,{owner:"Goldman Sachs"});
+n("p_ms","Morgan Stanley wealth + investment bank",2,{owner:"Morgan Stanley"});
+
+// More Auto products
+n("p_jeep","Jeep Wrangler + Grand Cherokee",2,{owner:"Stellantis"});
+n("p_ram","Ram 1500 + Heavy Duty trucks",2,{owner:"Stellantis"});
+n("p_mbg_eqs","Mercedes EQS + S-Class + GLE",2,{owner:"Mercedes-Benz"});
+n("p_bmw3","BMW 3-Series + X5 + i4 + i7",2,{owner:"BMW"});
+n("p_civic","Honda Civic + CR-V + Accord",2,{owner:"Honda"});
+n("p_motorbike","Honda motorcycles (CBR, Cub)",2,{owner:"Honda",capacity:"~17M motorcycles/yr — world #1"});
+n("p_ioniq","Hyundai Ioniq 5 + Kia EV6 + Genesis GV60",2,{owner:"Hyundai Motor Group"});
+
+// More Consumer
+n("p_birkin","Hermès Birkin + Kelly + scarves",2,{owner:"Hermès"});
+n("p_lancome","L'Oréal Paris + Lancôme + Maybelline + Kiehl's",2,{owner:"L'Oréal"});
+n("p_dove","Dove + Knorr + Hellmann's + Magnum",2,{owner:"Unilever"});
+n("p_bigmac","McDonald's burgers + fries + McCafé",2,{owner:"McDonald's"});
+
+// Retail products
+n("p_hd","Home Depot warehouses + Pro service",2,{owner:"Home Depot"});
+n("p_tgt","Target stores + Up&Up + Good & Gather",2,{owner:"Target"});
+
+// More Industrial products
+n("p_cat_excavator","Caterpillar excavators + 797F mining truck + engines",2,{owner:"Caterpillar"});
+n("p_hon_avionics","Honeywell avionics + APUs + automation",2,{owner:"Honeywell"});
+n("p_abb_robot","ABB robots + drives + electrification",2,{owner:"ABB"});
+n("p_schn_power","Schneider EcoStruxure + APC UPS + switchgear",2,{owner:"Schneider Electric"});
+n("p_3m_tape","3M Scotch + Post-it + N95 + abrasives",2,{owner:"3M"});
+
+// DEFENSE products
+n("p_f35","F-35 Lightning II",2,{owner:"Lockheed Martin",capacity:"~150 aircraft/yr; >1,000 delivered to 17 nations",desc:"World's most advanced 5th-gen fighter; fused into NATO + Pacific allies' airpower for the next 40 years."});
+n("p_f22","F-22 Raptor + F-16 Block 70",2,{owner:"Lockheed Martin"});
+n("p_lmt_missiles","LMT missiles (Javelin, JASSM, HIMARS, PAC-3 MSE)",2,{owner:"Lockheed Martin",desc:"Javelin made the U.S. famous in Ukraine 2022; PAC-3 MSE intercepts ballistic missiles."});
+n("p_lmt_sat","LMT space (GPS-III, SBIRS, Orion)",2,{owner:"Lockheed Martin"});
+n("p_pwengine","Pratt & Whitney F135 (F-35) + GTF (A320neo)",2,{owner:"RTX",capacity:"~150 F135 + ~600 GTF/yr"});
+n("p_patriot","Raytheon Patriot + AMRAAM + Tomahawk + NASAMS",2,{owner:"RTX",desc:"Patriot intercepted Russian Kinzhal hypersonics over Kyiv 2023; ~150+ Patriot batteries deployed worldwide."});
+n("p_collins_avionics","Collins Aerospace avionics + ejection seats",2,{owner:"RTX"});
+n("p_b21","B-21 Raider stealth bomber",2,{owner:"Northrop Grumman",capacity:"~100 planned, in production 2024+",desc:"First new U.S. strategic bomber in 35 years; ~$700M flyaway cost target."});
+n("p_b2","B-2 Spirit + Global Hawk + Triton",2,{owner:"Northrop Grumman"});
+n("p_sentinel","LGM-35A Sentinel ICBM",2,{owner:"Northrop Grumman",desc:"Replaces Minuteman III in 400 silos; controversial cost overruns 2024."});
+n("p_apg81_radar","APG-81 AESA radar (F-35) + APG-83 (F-16)",2,{owner:"Northrop Grumman"});
+n("p_subm","Virginia + Columbia-class subs",2,{owner:"GD Electric Boat",capacity:"~2 Virginia + Columbia/yr target"});
+n("p_abrams","M1 Abrams + Stryker",2,{owner:"GD Land Systems"});
+n("p_ddg","Arleigh Burke destroyer (DDG-51)",2,{owner:"GD Bath Iron Works"});
+n("p_gulfstream","Gulfstream G700 + G800 jets",2,{owner:"GD Aerospace"});
+n("p_typhoon","Eurofighter Typhoon + Tempest",2,{owner:"BAE Systems"});
+n("p_baearmor","BAE M777 + CV90 + howitzer ammunition",2,{owner:"BAE Systems"});
+n("p_l3comms","L3Harris tactical radios + EW",2,{owner:"L3Harris"});
+n("p_aerojet","Aerojet Rocketdyne solid rocket motors",2,{owner:"L3Harris (acquired 2023)",desc:"Mk 72 Patriot booster, Mk 104 standard missile, Stinger motor — near-monopoly in U.S. solid motors.",noAlt:"Northrop Grumman + L3Harris-Aerojet are the only two volume U.S. solid-rocket-motor producers; Aerojet is dominant for medium-sized motors."});
+n("p_a350","Airbus A320neo + A350 + A380",2,{owner:"Airbus",capacity:"~750 commercial deliveries 2024"});
+n("p_a400m","Airbus A400M + Tiger + NH90 helicopters",2,{owner:"Airbus Defence"});
+
+// More Media/Telecom
+n("p_xfinity","Comcast Xfinity + NBCUniversal + Sky",2,{owner:"Comcast"});
+n("p_vz5g","Verizon 5G + Fios fiber",2,{owner:"Verizon"});
+n("p_attfiber","AT&T fiber + 5G",2,{owner:"AT&T"});
+n("p_tmus5g","T-Mobile 5G mid-band",2,{owner:"T-Mobile"});
+
+// Mining "products" = ore concentrates
+n("p_bhp_ore","BHP iron ore + Cu + Ni + potash",2,{owner:"BHP"});
+n("p_rio_ore","Rio Tinto iron ore + Al + Cu + Li",2,{owner:"Rio Tinto"});
+n("p_glen_ore","Glencore Cu + Co + Zn + commodity trading",2,{owner:"Glencore"});
 
 // company → product
 [
@@ -478,7 +654,74 @@ n("p_cainiao","Cainiao smart logistics",2,{owner:"Alibaba"});
  ["dis",["p_disney_park","p_disney_plus","p_disney_studio"]],
  ["nflx",["p_nflx_stream"]],
  ["baba",["p_taobao","p_alicloud","p_cainiao"]],
+ ["jd",["p_jdmkt"]],
+ ["pdd",["p_temu"]],
+ ["meli",["p_mercado"]],
+ ["sap",["p_s4hana"]],
+ ["tcehy",["p_wechat","p_tencentgame"]],
+ ["ibm",["p_zmainframe","p_redhat"]],
+ ["csco",["p_catalyst","p_meraki"]],
+ ["txn",["p_txn_analog"]],
+ ["amat_co",["p_amat_tools"]],
+ ["lrcx_co",["p_lam_tools"]],
+ ["klac_co",["p_kla_tools"]],
+ ["mtk",["p_dimensity"]],
+ ["abbv",["p_humira"]],
+ ["nvs",["p_cosentyx"]],
+ ["tmo",["p_tmo_bioproc"]],
+ ["dhr",["p_dhr_lifesci"]],
+ ["cop",["p_cop_fuels"]],
+ ["ptr",["p_ptr_fuels"]],
+ ["eqnr",["p_eqnr_lng"]],
+ ["bac",["p_bac"]],
+ ["wfc",["p_wfc"]],
+ ["gs",["p_gs"]],
+ ["ms",["p_ms"]],
+ ["stla",["p_jeep","p_ram"]],
+ ["mbg",["p_mbg_eqs"]],
+ ["bmw",["p_bmw3"]],
+ ["hmc",["p_civic","p_motorbike"]],
+ ["hyu",["p_ioniq"]],
+ ["hms",["p_birkin"]],
+ ["orx",["p_lancome"]],
+ ["ulvr",["p_dove"]],
+ ["mcd",["p_bigmac"]],
+ ["hd",["p_hd"]],
+ ["tgt",["p_tgt"]],
+ ["cat",["p_cat_excavator"]],
+ ["hon",["p_hon_avionics"]],
+ ["abb",["p_abb_robot"]],
+ ["schn",["p_schn_power"]],
+ ["mmm",["p_3m_tape"]],
+ ["lmt",["p_f35","p_f22","p_lmt_missiles","p_lmt_sat"]],
+ ["rtx",["p_pwengine","p_patriot","p_collins_avionics"]],
+ ["noc",["p_b21","p_b2","p_sentinel","p_apg81_radar"]],
+ ["gd",["p_subm","p_abrams","p_ddg","p_gulfstream"]],
+ ["bae",["p_typhoon","p_baearmor"]],
+ ["l3",["p_l3comms","p_aerojet"]],
+ ["airbus",["p_a350","p_a400m"]],
+ ["cmcsa",["p_xfinity"]],
+ ["vz",["p_vz5g"]],
+ ["att",["p_attfiber"]],
+ ["tmus",["p_tmus5g"]],
+ ["bhp",["p_bhp_ore"]],
+ ["rio",["p_rio_ore"]],
+ ["glen",["p_glen_ore"]],
 ].forEach(([c,ps])=>ps.forEach(p=>l(c,p)));
+
+/* Retailers stock from many companies — special "stocks" relationship.
+   Stored on the retailer node so the detail panel can render a nice list,
+   AND added as graph edges so the chain traversal lights up the cart. */
+const retailStocks = {
+ wmt: ["apple","samsung","sony","ko","pep","pg","nestle","ulvr","jnj","mcd","ko","f","gm","mmm","hon","cat"],
+ cost: ["apple","samsung","sony","ko","pep","pg","nestle","ulvr","jnj"],
+ hd:   ["mmm","hon","cat","schn","abb","cvx","xom"],
+ tgt:  ["apple","ko","pep","pg","ulvr","nestle","mmm","mcd","orx"],
+};
+Object.entries(retailStocks).forEach(([r,cs])=>{
+  const node = N.find(n=>n.id===r); if(node) node.stocks = cs;
+  cs.forEach(c=>l(r,c));
+});
 
 /* ----------------------------------------------------------------------------
    TIER 3 — ASSEMBLY PLANTS (final integration sites)
@@ -1257,6 +1500,252 @@ Object.entries(rm).forEach(([r,os])=>os.forEach(o=>l(r,o)));
 ].forEach(([a,b])=>l(a,b));
 
 /* ============================================================================
+   DEFENSE + MINING ADDITIONS — extra nodes & links
+   ============================================================================ */
+
+/* --- Defense assembly plants (tier 3) --- */
+n("a_lmt_fortworth","Lockheed Fort Worth (Mile-Long Building)",3,{location:"Fort Worth, TX",owner:"Lockheed Martin",capacity:"sole F-35 prime final-assembly site",desc:"Mile-long building (one of largest under one roof on Earth) where every U.S./allied F-35 is integrated. Co-FACOs in Cameri Italy + Nagoya Japan handle European + Asian aircraft.",noAlt:"Only F-35 line in operation; loss/damage of this site would halt the program."});
+n("a_lmt_marietta","Lockheed Marietta",3,{location:"Marietta, GA",owner:"Lockheed Martin",desc:"C-130 Hercules + F-22 (legacy, line closed but parts active). Center fuselage for F-35 also assembled here."});
+n("a_noc_palmdale","Northrop Palmdale Site 4",3,{location:"Palmdale, CA",owner:"Northrop Grumman",desc:"Birthplace of B-2; now site of B-21 Raider production. Restricted-access airfield (Plant 42); also used by Lockheed Skunk Works.",noAlt:"Only U.S. stealth-bomber assembly facility."});
+n("a_rtx_pw_eh","Pratt & Whitney East Hartford",3,{location:"East Hartford, CT",owner:"RTX",capacity:"F135 + GTF (PW1100G) engines",desc:"Builds the only engine that powers the F-35 (F135) and the geared-turbofan that powers the A320neo. Middletown CT does engine assembly."});
+n("a_rtx_andover","Raytheon Andover",3,{location:"Andover, MA",owner:"RTX",desc:"Patriot system integration + missile production; also Tucson AZ (AMRAAM, Tomahawk)."});
+n("a_gd_eb_groton","GD Electric Boat (Groton + Quonset)",3,{location:"Groton, CT + Quonset Point, RI",owner:"General Dynamics",capacity:"~2 nuclear subs/yr target",desc:"Builds Virginia-class attack subs + Columbia-class ballistic-missile subs. Joint final assembly with HII Newport News for Columbia.",noAlt:"Only U.S. SSN/SSBN shipbuilders are GD Electric Boat + HII Newport News (joint)."});
+n("a_gd_lima","GD Land Systems Lima Tank Plant",3,{location:"Lima, OH",owner:"General Dynamics (govt-owned, contractor-operated)",desc:"Sole U.S. M1 Abrams main-battle-tank manufacturer.",noAlt:"Only U.S. tank plant; closure would end domestic MBT production capability."});
+n("a_gd_bath","Bath Iron Works",3,{location:"Bath, ME",owner:"GD",desc:"Builds Arleigh Burke (DDG-51) destroyers. Co-builder with HII Ingalls (Pascagoula MS)."});
+n("a_hii_newport","HII Newport News Shipbuilding",3,{location:"Newport News, VA",owner:"Huntington Ingalls Industries",desc:"Sole builder of U.S. nuclear aircraft carriers (Ford-class). Co-builds Virginia subs + Columbia-class with GD EB.",noAlt:"Only U.S. nuclear-aircraft-carrier shipyard."});
+n("a_bae_warton","BAE Warton + Brough",3,{location:"Lancashire, UK",owner:"BAE Systems",desc:"Eurofighter Typhoon final assembly + F-35 aft fuselage. Tempest sixth-gen design center."});
+n("a_airbus_toulouse","Airbus Toulouse Lagardère + Saint-Martin",3,{location:"Toulouse, France",owner:"Airbus",desc:"A350 + A330 + A380 final assembly. R&D headquarters."});
+n("a_airbus_hamburg","Airbus Hamburg Finkenwerder",3,{location:"Hamburg, Germany",owner:"Airbus",capacity:"~50% of A320 family final assembly",desc:"A320neo/A321neo + A380 (legacy). Cabin + interior fitting hub."});
+
+/* --- Defense components (tier 4) --- */
+n("c_f135","Pratt & Whitney F135 turbofan",4,{desc:"43,000 lbf afterburning thrust. One per F-35; ~150/yr.",noAlt:"Only U.S. fighter engine in this thrust class; F135 ECU upgrade replaces a never-built GE F136 alternative."});
+n("c_gtf","Pratt & Whitney GTF (PW1100G/PW1500G)",4,{desc:"Geared turbofan for A320neo / A220 / Embraer E2 / MC-21."});
+n("c_ej200","Eurofighter EJ200 engine",4,{desc:"R-R + MTU + Avio + ITP partnership."});
+n("c_apg81","Northrop AN/APG-81 AESA radar",4,{desc:"GaN T/R modules; 1,500+ delivered for F-35.",noAlt:"Sole F-35 radar; APG-83 (NOC) is the F-16 derivative."});
+n("c_aim120","AIM-120 AMRAAM missile",4,{desc:"Beyond-visual-range air-to-air; ~30,000 produced."});
+n("c_patriot_missile","Patriot PAC-3 MSE missile",4,{desc:"Hit-to-kill ballistic + cruise missile interceptor; LMT prime, RTX radar."});
+n("c_tomahawk","Tomahawk Block V cruise missile",4,{desc:"~$2M each; >2,200 fired in combat since 1991."});
+n("c_naval_reactor","S9G + S1B naval nuclear reactors",4,{desc:"GE-Hitachi BWXT; powers Virginia + Columbia subs.",noAlt:"BWX Technologies (Lynchburg VA) is the sole U.S. naval-reactor fuel + heavy-component supplier."});
+n("c_du_armor","Depleted-uranium composite armor",4,{desc:"Used in Abrams MBT M1A2 turret face. DOE-supplied DU.",noAlt:"DU armor is U.S./UK-only; commercial-grade alternatives are tungsten-based."});
+n("c_solid_motor","Solid rocket motor (Mk 72, Mk 104, GMLRS)",4,{desc:"Ammonium-perchlorate solid propellant + composite case."});
+n("c_aim9","AIM-9X Sidewinder missile",4,{desc:"Short-range IR-homing air-to-air."});
+
+/* --- Defense fabs / specialty plants (tier 5) --- */
+n("f_aerojet","Aerojet Rocketdyne (Sacramento + Camden)",5,{location:"Sacramento, CA + Camden, AR",owner:"L3Harris (acq. 2023)",desc:"Solid-rocket motors for Patriot, Tomahawk, Stinger, GMLRS, Standard Missile.",noAlt:"Aerojet + Northrop Grumman are the only two U.S. solid-motor suppliers; Aerojet is dominant for Patriot Mk 72 boosters."});
+n("f_noc_motors","Northrop Grumman ABL Magna + Promontory",5,{location:"Magna + Promontory, UT",owner:"Northrop Grumman",desc:"Large solid rocket motors (Sentinel ICBM stages, NASA SLS boosters)."});
+n("f_carpenter","Carpenter Technology Reading",5,{location:"Reading, PA",owner:"Carpenter Technology",desc:"VIM-VAR special steels (Pyrowear 53, AerMet 100), nickel superalloys for jet-engine shafts.",noAlt:"One of only two U.S. VIM-VAR shops capable of aerospace-grade steels."});
+n("f_bwxt","BWX Technologies Lynchburg",5,{location:"Lynchburg, VA",owner:"BWXT",desc:"Sole U.S. naval-nuclear-reactor heavy-component manufacturer + fuel fabricator.",noAlt:"Only U.S. supplier of naval-reactor cores."});
+n("f_amerpac","American Pacific Henderson NV",5,{location:"Henderson, NV",owner:"American Pacific Corp",desc:"Sole U.S. ammonium-perchlorate producer (rocket-motor oxidizer).",noAlt:"Only U.S. AP plant; rebuilt after the 1988 PEPCON explosion. Single-point-of-failure for solid rocket motors."});
+n("f_doe_pantex","DOE Pantex Plant",5,{location:"Amarillo, TX",owner:"U.S. Dept of Energy / NNSA",desc:"Sole U.S. nuclear-weapon assembly + dismantlement site. DU stockpile management.",noAlt:"Single-site monopoly for warhead final assembly."});
+n("f_rolls_derby","Rolls-Royce Derby",5,{location:"Derby, UK",owner:"Rolls-Royce",desc:"Trent jet engines + EJ200 partner + UK nuclear submarine reactors (Astute, Dreadnought)."});
+n("f_mtu","MTU Aero Engines Munich",5,{location:"Munich, Germany",owner:"MTU",desc:"~5% revenue share in P&W GTF program; high-pressure compressor and low-pressure turbine."});
+n("f_thales","Thales Pessac + Cholet",5,{location:"France",owner:"Thales",desc:"Avionics, radar, secure comms — Rafale + A350 + European defense systems."});
+
+/* --- Defense materials (tier 6) --- */
+n("m_du","Depleted uranium",6,{desc:"Byproduct of uranium enrichment; used in DU armor + ballast (legacy).",noAlt:"U.S. DOE stockpile is the only authorized source for armor-grade DU."});
+n("m_ap","Ammonium perchlorate (AP)",6,{desc:"Solid-rocket-motor oxidizer.",noAlt:"American Pacific Henderson NV is the only U.S. AP plant in production."});
+n("m_aermet","VIM-VAR special steels (AerMet, Pyrowear)",6,{desc:"Used in landing gear, jet-engine shafts."});
+n("m_uranium_lowenrich","Low-enriched uranium (LEU)",6,{desc:"Naval reactor + civil power fuel."});
+n("m_uranium_heu","Highly-enriched uranium (HEU)",6,{desc:"Naval reactors + warheads."});
+n("m_he","Military explosives (RDX, HMX, IMX-101)",6,{desc:"Holston Army Ammunition Plant TN is sole U.S. RDX/HMX source.",noAlt:"BAE-operated Holston AAP is the only U.S. military-grade explosive plant."});
+
+/* --- Defense refineries / processors (tier 7) --- */
+n("r_holston","BAE Holston Army Ammo Plant",7,{location:"Kingsport, TN",owner:"BAE Systems (operating contractor)",desc:"Sole U.S. military explosive (RDX/HMX) manufacturer.",noAlt:"True U.S. monopoly on military RDX/HMX."});
+n("r_kazatomprom","Kazatomprom uranium",7,{location:"Astana, Kazakhstan",owner:"Kazatomprom (state)",capacity:"~40% of world uranium",desc:"In-situ leach uranium; supplies most Western reactors. Russian sanctions raised KZ's strategic profile."});
+n("r_cameco","Cameco Cigar Lake + Key Lake",7,{location:"Saskatchewan, Canada",owner:"Cameco",desc:"World's highest-grade uranium mine (~17% U); largest non-Russian Western source."});
+n("r_doe_oakridge","DOE Oak Ridge / Y-12",7,{location:"Oak Ridge, TN",owner:"NNSA",desc:"Highly-enriched-uranium processing for naval reactors + warheads. Y-12 is a legacy Manhattan-Project site."});
+
+/* --- Defense raw sources (tier 8) --- */
+n("o_uranium_kz","Kazakhstan uranium (Inkai, Tortkuduk)",8,{location:"Kazakhstan",owner:"Kazatomprom + JV partners (Cameco, Orano)",capacity:"~40% world supply"});
+n("o_uranium_ca","Athabasca Basin uranium",8,{location:"Saskatchewan, Canada",owner:"Cameco + Orano",desc:"Cigar Lake + McArthur River — highest-grade uranium on Earth."});
+n("o_uranium_us","U.S. uranium (Wyoming ISR + Texas)",8,{location:"Wyoming + Texas",owner:"Energy Fuels + UEC",desc:"In-situ recovery; small share but strategic. White Mesa UT is the only operating U.S. conventional mill."});
+n("o_uranium_au","Australian uranium (Olympic Dam, Ranger legacy)",8,{location:"South Australia",owner:"BHP + others"});
+
+/* --- New material → mine + new fab → material links for defense --- */
+const cfDef = {
+ c_f135:["a_rtx_pw_eh"],
+ c_gtf:["a_rtx_pw_eh"],
+ c_ej200:["f_rolls_derby","f_mtu"],
+ c_apg81:["f_honeywell_avionics"], // shared avionics-ecosystem fab
+ c_aim120:["a_rtx_andover","f_aerojet"],
+ c_patriot_missile:["a_rtx_andover","f_aerojet"],
+ c_tomahawk:["a_rtx_andover","f_aerojet"],
+ c_naval_reactor:["f_bwxt"],
+ c_du_armor:["f_doe_pantex"],
+ c_solid_motor:["f_aerojet","f_noc_motors"],
+ c_aim9:["a_rtx_andover","f_aerojet"],
+};
+Object.entries(cfDef).forEach(([c,fs])=>fs.forEach(f=>l(c,f)));
+
+const fmDef = {
+ f_aerojet:["m_ap","m_he","m_aermet"],
+ f_noc_motors:["m_ap","m_aermet"],
+ f_carpenter:["m_aermet","m_nickel_super","m_titanium"],
+ f_bwxt:["m_uranium_lowenrich","m_uranium_heu","m_aermet"],
+ f_amerpac:["m_ap"],
+ f_doe_pantex:["m_du","m_uranium_heu"],
+ f_rolls_derby:["m_titanium","m_nickel_super","m_carbon_fiber"],
+ f_mtu:["m_titanium","m_nickel_super"],
+ f_thales:["m_copper","m_gold","m_gallium","m_indium"],
+};
+Object.entries(fmDef).forEach(([f,ms])=>ms.forEach(m=>l(f,m)));
+
+const mrDef = {
+ m_du:["r_doe_oakridge"],
+ m_ap:["f_amerpac"],   // material→fab is the supplier of AP
+ m_aermet:["f_carpenter"],
+ m_uranium_lowenrich:["r_kazatomprom","r_cameco","r_doe_oakridge"],
+ m_uranium_heu:["r_doe_oakridge"],
+ m_he:["r_holston"],
+};
+Object.entries(mrDef).forEach(([m,rs])=>rs.forEach(r=>l(m,r)));
+
+const roDef = {
+ r_kazatomprom:["o_uranium_kz"],
+ r_cameco:["o_uranium_ca","o_uranium_us"],
+ r_doe_oakridge:["o_uranium_us","o_uranium_au"],
+};
+Object.entries(roDef).forEach(([r,os])=>os.forEach(o=>l(r,o)));
+
+/* --- Wire defense PRODUCTS to their assembly + components --- */
+const paDef = {
+ p_f35:["a_lmt_fortworth"],
+ p_f22:["a_lmt_marietta"],
+ p_lmt_missiles:["a_rtx_andover"],   // some LMT missiles use RTX/Aerojet motors
+ p_lmt_sat:["a_lmt_marietta"],
+ p_pwengine:["a_rtx_pw_eh"],
+ p_patriot:["a_rtx_andover"],
+ p_collins_avionics:["a_rtx_pw_eh"],
+ p_b21:["a_noc_palmdale"],
+ p_b2:["a_noc_palmdale"],
+ p_sentinel:["a_noc_palmdale"],   // approx — Sentinel partly Hill AFB
+ p_apg81_radar:["f_honeywell_avionics"],
+ p_subm:["a_gd_eb_groton","a_hii_newport"],
+ p_abrams:["a_gd_lima"],
+ p_ddg:["a_gd_bath"],
+ p_gulfstream:["a_lmt_marietta"],   // approx — Gulfstream Savannah is real plant
+ p_typhoon:["a_bae_warton"],
+ p_baearmor:["a_bae_warton"],
+ p_l3comms:["f_aerojet"],   // L3 includes Aerojet now
+ p_aerojet:["f_aerojet","f_noc_motors"],
+ p_a350:["a_airbus_toulouse"],
+ p_a400m:["a_airbus_toulouse","a_airbus_hamburg"],
+};
+Object.entries(paDef).forEach(([p,as])=>as.forEach(a=>l(p,a)));
+
+const pcDef = {
+ p_f35:["c_f135","c_apg81","c_avionics","c_chassis","c_aim120","c_aim9","c_carbon_fiber_module"],
+ p_f22:["c_engine_core","c_apg81","c_avionics"],
+ p_lmt_missiles:["c_solid_motor","c_avionics"],
+ p_pwengine:["c_f135","c_gtf","c_engine_core"],
+ p_patriot:["c_patriot_missile","c_solid_motor"],
+ p_b21:["c_engine_core","c_avionics","c_carbon_fiber_module"],
+ p_subm:["c_naval_reactor","c_avionics","c_chassis"],
+ p_abrams:["c_du_armor","c_engine_core","c_chassis"],
+ p_ddg:["c_engine_core","c_avionics","c_chassis","c_aim120"],
+ p_typhoon:["c_ej200","c_avionics"],
+ p_a350:["c_engine_core","c_gtf","c_wing_787","c_avionics"],
+ p_a400m:["c_engine_core","c_avionics","c_chassis"],
+ // collins/avionics
+ p_collins_avionics:["c_avionics"],
+ p_apg81_radar:["c_apg81"],
+ p_aerojet:["c_solid_motor"],
+ p_l3comms:["c_pcb","c_dram","c_pcb"],
+};
+// Need a placeholder carbon-fiber-module component (it links to existing m_carbon_fiber)
+n("c_carbon_fiber_module","Aerospace composite skin",4,{desc:"Carbon-fiber-reinforced polymer panels used in F-35 + B-21 + 787 wings."});
+l("c_carbon_fiber_module","r_toray_carbon");
+Object.entries(pcDef).forEach(([p,cs])=>cs.forEach(c=>l(p,c)));
+
+/* --- Mining tier-1 → existing mines + materials --- */
+const miningOut = {
+ bhp: ["o_pilbara_iron","o_escondida","m_iron","m_copper","m_nickel"],
+ rio: ["o_pilbara_iron","o_weipa","m_iron","m_alum","m_copper"],
+ glen:["o_kamoto","o_tenke","m_cobalt","m_copper"],
+ // mining product nodes also link
+ p_bhp_ore:["o_pilbara_iron","o_escondida"],
+ p_rio_ore: ["o_pilbara_iron","o_weipa","o_norilsk"],   // approx
+ p_glen_ore:["o_kamoto","o_tenke"],
+};
+Object.entries(miningOut).forEach(([k,vs])=>vs.forEach(v=>l(k,v)));
+
+/* --- Other major chains for new companies that still need wiring --- */
+// Tencent / Alibaba / JD / PDD all run on data centers + devices
+[
+ ["p_wechat","f_aws_dc"],["p_tencentgame","f_aws_dc"],
+ ["p_jdmkt","f_aws_dc"],["p_temu","f_aws_dc"],["p_mercado","f_aws_dc"],
+ ["p_zmainframe","c_pcb"],["p_zmainframe","c_dram"],["p_zmainframe","c_intel_die"],
+ ["p_redhat","f_aws_dc"],["p_catalyst","c_pcb"],["p_catalyst","c_broadcom_die"],
+ ["p_meraki","f_aws_dc"],
+ ["p_txn_analog","f_tsmc_12"],["p_dimensity","f_tsmc_18"],
+ // equipment maker products link to their plants (already exist as f_amat/f_lam/f_kla)
+ ["p_amat_tools","f_amat"],["p_lam_tools","f_lam"],["p_kla_tools","f_kla"],
+ // Pharma: AbbVie/Novartis use existing CDMOs + their own plants
+ ["p_humira","f_lonza"],["p_humira","f_samsung_bio"],
+ ["p_cosentyx","f_lonza"],
+ ["p_tmo_bioproc","c_pcb"],["p_tmo_bioproc","c_dram"],   // bioprocessing tools have IT in them
+ ["p_dhr_lifesci","c_pcb"],
+ // Energy: CoP, PetroChina, Equinor refineries — link to existing oil refining plants
+ ["p_cop_fuels","a_xom_baytown"],   // CoP doesn't own refineries; sells crude to majors
+ ["p_ptr_fuels","a_aramco_jazan"],   // approx — China imports from Saudi
+ ["p_eqnr_lng","a_shel_pernis"],
+ // Finance
+ ["p_bac","f_aws_dc"],["p_wfc","f_aws_dc"],["p_gs","f_azure_dc"],["p_ms","f_azure_dc"],
+ // Auto: new auto companies all use the existing battery/motor/inverter/chassis chain
+ ["p_jeep","c_nmcpouch"],["p_jeep","c_motor"],["p_jeep","c_inverter"],["p_jeep","c_harness"],["p_jeep","c_chassis"],
+ ["p_ram","c_nmcpouch"],["p_ram","c_motor"],["p_ram","c_chassis"],["p_ram","c_harness"],
+ ["p_mbg_eqs","c_nmcpouch"],["p_mbg_eqs","c_motor"],["p_mbg_eqs","c_inverter"],["p_mbg_eqs","c_chassis"],["p_mbg_eqs","c_harness"],["p_mbg_eqs","c_imx"],
+ ["p_bmw3","c_nmcpouch"],["p_bmw3","c_motor"],["p_bmw3","c_inverter"],["p_bmw3","c_chassis"],["p_bmw3","c_harness"],
+ ["p_civic","c_2170"],["p_civic","c_motor"],["p_civic","c_inverter"],["p_civic","c_chassis"],["p_civic","c_harness"],
+ ["p_motorbike","c_chassis"],["p_motorbike","c_engine_core"],
+ ["p_ioniq","c_nmcpouch"],["p_ioniq","c_motor"],["p_ioniq","c_inverter"],["p_ioniq","c_chassis"],["p_ioniq","c_harness"],
+ // Consumer
+ ["p_birkin","c_leather"],["p_birkin","c_perfume"],
+ ["p_lancome","c_perfume"],["p_lancome","c_pet"],
+ ["p_dove","c_palm"],["p_dove","c_paper"],["p_dove","c_pet"],
+ ["p_bigmac","c_milk"],["p_bigmac","c_palm"],
+ // Retail "products" link to logistics/storage
+ ["p_hd","a_wmt_dc"],   // approx — HD has its own DC network
+ ["p_tgt","a_wmt_dc"],
+ // Industrial
+ ["p_cat_excavator","c_engine_core"],["p_cat_excavator","c_chassis"],["p_cat_excavator","c_inverter"],
+ ["p_hon_avionics","c_avionics"],["p_hon_avionics","c_pcb"],
+ ["p_abb_robot","c_motor"],["p_abb_robot","c_inverter"],["p_abb_robot","c_pcb"],
+ ["p_schn_power","c_inverter"],["p_schn_power","c_pcb"],["p_schn_power","c_chassis"],
+ ["p_3m_tape","c_paper"],["p_3m_tape","c_pet"],
+ // Telecom: 5G base stations are full of semis + optics
+ ["p_xfinity","c_pcb"],["p_xfinity","c_optic"],
+ ["p_vz5g","c_pcb"],["p_vz5g","c_optic"],["p_vz5g","c_broadcom_die"],
+ ["p_attfiber","c_pcb"],["p_attfiber","c_optic"],
+ ["p_tmus5g","c_pcb"],["p_tmus5g","c_optic"],
+].forEach(([a,b])=>l(a,b));
+
+/* --- Mark existing nodes that have no viable alternatives ------------- */
+const NO_ALT = {
+ "f_asml":"ASML is the sole producer of EUV lithography on Earth. Without ASML, no chip ≤7nm gets made — period.",
+ "f_tsmc_18":"TSMC is the only foundry making 3nm chips in volume. Samsung 3nm yields lag significantly.",
+ "f_tsmc_advanced":"TSMC controls ~95% of CoWoS advanced-packaging output through 2025. ASE + Amkor cannot match volume.",
+ "f_skhynix_m16":"SK Hynix is the only volume HBM3e supplier to Nvidia for 2024 H200/B200; Samsung qualification has slipped repeatedly.",
+ "f_corning":"Corning's fusion-drawn aluminosilicate glass (Gorilla Glass + Apple Ceramic Shield) — no other manufacturer at scale.",
+ "f_largan":"Largan supplies the majority of premium smartphone optics. Genius + Sunny Optical can't yet match top-bin yield.",
+ "f_sony_kumamoto":"Sony is the only volume producer of micro-OLED panels for Vision Pro + Quest Pro. BOE is years behind.",
+ "o_spruce":"Spruce Pine, NC is the only meaningful source of ultra-high-purity quartz for silicon-ingot crucibles. No equivalent deposit exists.",
+ "o_bayan_obo":"Bayan Obo + China downstream account for ~85% of HEAVY rare-earth refining. Lynas + MP cover only LIGHT REE at scale.",
+ "r_tsingshan_imip":"Tsingshan's HPAL+RKEF in Indonesia produces ~30% of world battery-grade nickel; no equivalent ex-China project online before 2027.",
+ "r_vsmpo":"VSMPO Russia supplies ~30% of aerospace-grade titanium sponge. Boeing/Airbus actively seek alternates but at lower scale.",
+ "r_toray_carbon":"Toray dominates aerospace carbon-fiber. Hexcel + Mitsubishi Rayon are smaller alternates.",
+ "a_foxconn_zheng":"Half of all iPhones ship from this single Foxconn campus. India + Vietnam diversification is years from parity.",
+ "a_nvo_kal":"Novo Nordisk Kalundborg has been the primary semaglutide site for years; Catalent acquisition adds capacity but Kalundborg still dominant.",
+ "o_ghawar":"Ghawar is the largest conventional oilfield ever discovered (~3.8 Mb/d at peak). No replacement asset exists anywhere on Earth.",
+ "f_lonza":"Lonza Visp is the largest peptide-CDMO line — relevant for tirzepatide + semaglutide synthesis at scale. Few alternates can match.",
+};
+Object.entries(NO_ALT).forEach(([id,reason])=>{
+  const x = N.find(n=>n.id===id); if(!x) return;
+  x.noAlt = reason;
+  x.flags = (x.flags||[]).concat(["🔒 NO VIABLE ALTERNATIVE"]);
+});
+
+/* ============================================================================
    RENDER
    ============================================================================ */
 const svg = d3.select("#graph");
@@ -1340,8 +1829,8 @@ const node = root.append("g").attr("class","nodes")
 node.append("circle").attr("r", d=>tiers[d.tier].r).attr("fill", sectorColor);
 
 node.filter(d=>d.flags && d.flags.length).append("text")
-  .attr("text-anchor","middle").attr("dy","-13").attr("font-size","10")
-  .text("⚠").attr("fill","#ff9aa2");
+  .attr("text-anchor","middle").attr("dy","-13").attr("font-size","11")
+  .text(d=>d.noAlt?"🔒":"⚠").attr("fill","#ff9aa2");
 
 node.append("text").attr("class","node-label")
  .attr("text-anchor","middle").attr("dy", d=>tiers[d.tier].r+11)
@@ -1406,6 +1895,16 @@ function renderDetail(d, keep){
 
   const flagBadges = (d.flags||[]).map(f=>`<span class="tag warn">${f}</span>`).join("");
   const sectorBadge = d.tier===1 && d.sector ? `<span class="tag sector" style="background:${sectors[d.sector].color}26;color:${sectors[d.sector].color}">${sectors[d.sector].name}</span>` : "";
+  const noAltBlock = d.noAlt?`<div style="margin:10px 0;padding:8px 10px;background:#3a1f1f;border:1px solid #6e3a3a;border-radius:6px;font-size:12px;color:#ffcdcd;line-height:1.5"><strong style="color:#ff9aa2">🔒 NO VIABLE ALTERNATIVE</strong><br>${d.noAlt}</div>`:"";
+
+  // Retailer "stocks from" section
+  let stocksBlock = "";
+  if(d.stocks && d.stocks.length){
+    const stockedCos = d.stocks.map(id=>N.find(n=>n.id===id)).filter(Boolean);
+    stocksBlock = `<h2>Stocks products from (${stockedCos.length} of many)</h2>
+      <ul class="links-list">${stockedCos.map(c=>`<li data-id="${c.id}"><span><span class="dot" style="display:inline-block;background:${sectorColor(c)};margin-right:6px"></span>${c.label}</span><span class="arrow">${sectors[c.sector].name}</span></li>`).join("")}</ul>
+      <div style="font-size:11px;color:#9aa7c2;margin-top:6px">A retailer's full SKU graph would dwarf this map; shown above are illustrative top suppliers. Click through to see what's behind each.</div>`;
+  }
 
   const html = `
     <h3>${d.label}</h3>
@@ -1416,9 +1915,11 @@ function renderDetail(d, keep){
       ${d.hq?`<span class="tag">HQ: ${d.hq}</span>`:""}
       ${flagBadges}
     </div>
+    ${noAltBlock}
     ${d.location?`<div class="kv"><div class="k">Location</div><div class="v">${d.location}</div></div>`:""}
     ${d.capacity?`<div class="kv"><div class="k">Capacity</div><div class="v">${d.capacity}</div></div>`:""}
     ${d.desc?`<p>${d.desc}</p>`:""}
+    ${stocksBlock}
 
     <div class="breadcrumb">
       <strong>Chain (${keep.size} nodes):</strong><br>
@@ -1509,7 +2010,7 @@ Object.entries(sectors).forEach(([sk,sv])=>{
 });
 
 // Chokepoint quick-jumps
-const chokeIds = ["asml","f_tsmc_advanced","f_tsmc_18","f_skhynix_m16","o_spruce","o_bayan_obo","r_tsingshan_imip","f_corning","a_foxconn_zheng","o_kamoto","o_ghawar","r_vsmpo","a_nvo_kal","f_wuxi"];
+const chokeIds = ["f_asml","f_tsmc_advanced","f_tsmc_18","f_skhynix_m16","o_spruce","o_bayan_obo","r_tsingshan_imip","f_corning","f_largan","f_sony_kumamoto","a_foxconn_zheng","o_kamoto","o_ghawar","r_vsmpo","r_toray_carbon","a_nvo_kal","f_wuxi","f_lonza","a_lmt_fortworth","a_noc_palmdale","f_aerojet","f_amerpac","f_bwxt","r_holston","a_gd_eb_groton","a_gd_lima","a_hii_newport"];
 const chokesEl = document.getElementById("chokes");
 chokeIds.forEach(id=>{
   const x = N.find(n=>n.id===id); if(!x) return;
