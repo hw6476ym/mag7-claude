@@ -179,6 +179,25 @@
   .story-caption button{background:#3457a3;border:none;color:#fff;font-size:11px;
     padding:5px 12px;border-radius:5px;cursor:pointer}
   .story-caption button.secondary{background:transparent;color:var(--muted);border:1px solid var(--line)}
+
+  /* Ask-the-map UI */
+  .ask-box{background:linear-gradient(135deg,#1a2247 0%,#1a1a3d 100%);
+    border:1px solid #3457a3;border-radius:10px;padding:10px;margin-top:6px}
+  .ask-box textarea{width:100%;background:#0a0f1f;border:1px solid var(--line);color:var(--text);
+    padding:8px 10px;border-radius:6px;font-size:13px;resize:none;font-family:inherit;
+    outline:none;min-height:36px}
+  .ask-box textarea:focus{border-color:var(--accent)}
+  .ask-go{background:#3457a3;border:none;color:#fff;padding:6px 12px;border-radius:6px;
+    cursor:pointer;font-size:12px;margin-top:6px;width:100%}
+  .ask-go:hover{background:#4267c0}
+  .example-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+  .example-chips button{background:#0d1428;border:1px solid var(--line);color:var(--accent);
+    padding:3px 8px;border-radius:999px;font-size:10px;cursor:pointer}
+  .example-chips button:hover{background:#182441;color:#cfe1ff}
+  .ask-result{font-size:11px;color:var(--muted);margin-top:6px;padding:6px 8px;
+    background:#0d1428;border-radius:5px;display:none;line-height:1.4}
+  .ask-result.visible{display:block}
+  .ask-result strong{color:#cfe1ff}
 </style>
 </head>
 <body>
@@ -190,6 +209,21 @@
   </header>
 
   <aside class="left">
+    <h2>❓ Ask the map</h2>
+    <div class="ask-box">
+      <textarea id="askInput" rows="2" placeholder="Ask anything — e.g. 'tesla vs apple' or 'what uses lithium' or 'where does cobalt come from'"></textarea>
+      <button class="ask-go" id="askGo">Show me ↵</button>
+      <div class="example-chips">
+        <button data-q="show all chokepoints">🔒 all chokepoints</button>
+        <button data-q="what uses lithium">what uses lithium</button>
+        <button data-q="where does cobalt come from">cobalt → mines</button>
+        <button data-q="tesla vs apple">tesla vs apple</button>
+        <button data-q="what powers tsmc">what powers TSMC</button>
+        <button data-q="made in china">made in China</button>
+      </div>
+      <div class="ask-result" id="askResult"></div>
+    </div>
+
     <h2>📖 Curated stories</h2>
     <select id="storySelect">
       <option value="">— pick a chain to walk through —</option>
@@ -197,8 +231,16 @@
       <option value="h100">🤖 Nvidia H100 — fab to power plant</option>
       <option value="f35">✈ F-35 — every supplier</option>
       <option value="modely">🚗 Tesla Model Y — to Atacama lithium</option>
+      <option value="4680">🔋 Tesla 4680 cell — every atom</option>
       <option value="ozempic">💉 Ozempic — peptide to patient</option>
+      <option value="keytruda">🏥 Keytruda — antibody to cancer patient</option>
       <option value="bigmac">🍔 Big Mac — to Brazilian sugarcane</option>
+      <option value="kitkat">🍫 Nestlé KitKat — to Ivory Coast cocoa</option>
+      <option value="787">✈ Boeing 787 — wing to Toray carbon fiber</option>
+      <option value="visa">💳 Visa swipe — what's behind a transaction</option>
+      <option value="aramco">🛢 Aramco Ghawar — to your gas pump</option>
+      <option value="walmart">🛒 Walmart shelf — what's behind the basket</option>
+      <option value="ai">⚛ AI training run — H100s to Australian coal</option>
       <option value="aichip">🔒 The 5 chokepoints behind every AI chip</option>
     </select>
 
@@ -2598,6 +2640,101 @@ const STORIES = {
       {id:"o_spruce",    caption:"#5: Spruce Pine, NC. Ultra-high-purity quartz for silicon ingot crucibles. No equivalent deposit known on Earth. 🔒"},
     ]
   },
+  "4680": {
+    title: "Tesla 4680 cell — every atom in 9,000 cells",
+    steps: [
+      {id:"c_4680",         caption:"The 4680: a tabless cylindrical cell, 46mm × 80mm. ~9,000 of these go into a Model Y structural pack."},
+      {id:"f_tesla_4680",   caption:"Made in-house by Tesla at Giga Nevada (Sparks NV) and Giga Texas. Vertical-integration play."},
+      {id:"m_lihydroxide",  caption:"Cathode lithium hydroxide — battery-grade salt, the highest-value input."},
+      {id:"r_ganfeng_xinyu", caption:"Most lithium hydroxide is refined at Ganfeng Xinyu, Jiangxi — world's largest LiOH refinery."},
+      {id:"o_greenbushes",  caption:"Spodumene rock from Greenbushes, Western Australia. ~50% of all hard-rock lithium starts here."},
+      {id:"m_nickel",       caption:"Nickel for the cathode (Tesla uses high-nickel NMC + 4680 NCA chemistries)."},
+      {id:"r_tsingshan_imip", caption:"Tsingshan IMIP Indonesia — controls ~30% of battery-grade nickel via HPAL/RKEF. 🔒"},
+      {id:"m_graphite",     caption:"Anode graphite — synthetic + spheronized natural flake."},
+      {id:"o_heilong_g",    caption:"Most natural flake graphite comes from Heilongjiang, China. ~70% world supply."},
+      {id:"m_copper",       caption:"Copper foil for current collectors — kilometers per cell."},
+      {id:"o_escondida",    caption:"World's largest copper mine: Escondida, Chile. BHP-operated."},
+    ]
+  },
+  keytruda: {
+    title: "Keytruda — antibody to cancer patient",
+    steps: [
+      {id:"mrk",            caption:"Merck. Keytruda (pembrolizumab) is the world's top-selling drug — ~$30B/yr."},
+      {id:"p_keytruda",     caption:"Keytruda is a monoclonal antibody — a checkpoint inhibitor that uncloaks cancer cells from the immune system."},
+      {id:"a_mrk_drinkbridge", caption:"Made at Merck West Point PA + Durham NC. Biologics are bioreactor-grown, not chemically synthesized."},
+      {id:"c_pemb",         caption:"The active ingredient: a monoclonal antibody grown in CHO (Chinese hamster ovary) mammalian cells."},
+      {id:"f_samsung_bio",  caption:"For surge capacity, biologics flow through CDMOs like Samsung Biologics Songdo — world's largest single-site biologic CDMO with ~620 kL of bioreactor capacity."},
+      {id:"m_chocho",       caption:"Bioreactors run on CHO cell-culture media + Protein A resin — the secret sauce of biopharma."},
+    ]
+  },
+  kitkat: {
+    title: "Nestlé KitKat — to Ivory Coast cocoa",
+    steps: [
+      {id:"nestle",         caption:"Nestlé — world's largest food company. Owns KitKat outside the U.S. (Hershey makes the U.S. version under license)."},
+      {id:"p_nescafe",      caption:"KitKat / Nescafé / Purina / Gerber — Nestlé's flagship products."},
+      {id:"a_nestle_orbe",  caption:"R&D at Nestlé Orbe + Konolfingen Switzerland. Nestlé runs 354 factories in 79 countries."},
+      {id:"c_cocoa",        caption:"Chocolate = cocoa mass + cocoa butter. From the bean."},
+      {id:"r_ofi",          caption:"Olam Food Ingredients — top-3 cocoa + coffee processor. Crushes beans into mass for Nestlé/Mars/Hershey."},
+      {id:"o_ivory_cocoa",  caption:"Ivory Coast + Ghana grow ~65% of the world's cocoa, on ~2 million smallholder farms. 🚩 Ongoing concerns about child-labor + farm-gate prices."},
+    ]
+  },
+  "787": {
+    title: "Boeing 787 — composite wing to Toray carbon fiber",
+    steps: [
+      {id:"ba",             caption:"Boeing — prime contractor for the 787 Dreamliner."},
+      {id:"p_787",          caption:"787 is ~50% composite by weight — first long-haul jet built that way. Lighter, more fuel-efficient."},
+      {id:"a_boeing_everett", caption:"Final assembly: Boeing Everett WA + N. Charleston SC."},
+      {id:"c_wing_787",     caption:"The wing. Built whole at Mitsubishi Heavy Industries Nagoya — first non-U.S. supplier to ever make a Boeing wing."},
+      {id:"f_mhi_nagoya",   caption:"MHI Nagoya. Wing skins, spars, ribs — all carbon-fiber-reinforced polymer."},
+      {id:"m_carbon_fiber", caption:"The carbon fiber itself: aerospace-grade T800/T1100 prepreg."},
+      {id:"r_toray_carbon", caption:"Toray Aichi (Japan) + Toray Decatur (Alabama). Dominant aerospace carbon-fiber supplier — 787 wing is Toray-only. 🔒"},
+    ]
+  },
+  visa: {
+    title: "Visa swipe — what's behind a transaction",
+    steps: [
+      {id:"v",              caption:"Visa — ~4.4 billion cards, ~290 billion transactions/yr. The biggest single network in finance."},
+      {id:"p_visanet",      caption:"VisaNet — the proprietary settlement network. Routes a transaction in <2 seconds across borders."},
+      {id:"f_aws_dc",       caption:"Increasingly, parts of VisaNet run on AWS — plus Visa's own datacenters in Ashburn VA, Highlands Ranch CO, London."},
+      {id:"c_h100die",      caption:"Modern fraud-detection inference is done on Nvidia H100s. Visa is one of the largest non-hyperscaler GPU customers."},
+      {id:"f_tsmc_12",      caption:"H100 silicon is fabricated at TSMC Fab 12 (Hsinchu) on the 4N node."},
+      {id:"r_pp_taiwan_grid", caption:"...powered by Taiwan's Taipower grid. Yes — every Visa swipe ultimately depends on Taiwanese natural gas + nuclear power. ⚠"},
+    ]
+  },
+  aramco: {
+    title: "Aramco Ghawar — to your gas pump",
+    steps: [
+      {id:"aramco",         caption:"Saudi Aramco — world's largest oil producer. ~$480B revenue. Most profitable company in human history."},
+      {id:"o_ghawar",       caption:"Ghawar — the largest conventional oilfield ever discovered. ~3.8 Mb/d at peak. 🔒 No replacement asset exists anywhere on Earth."},
+      {id:"m_crude_arab",   caption:"Arabian Light + Heavy crude — exported to refineries worldwide."},
+      {id:"r_aramco_jubail", caption:"Aramco's own refining muscle: Jubail Master Refinery + Jazan + Yanbu. ~3 Mb/d combined."},
+      {id:"c_gas",          caption:"Refined gasoline + diesel cuts."},
+      {id:"a_xom_baytown",  caption:"Aramco crude also gets refined by ExxonMobil Baytown (USA) + Shell Pernis (NL) + others."},
+    ]
+  },
+  walmart: {
+    title: "Walmart shelf — what's behind the basket",
+    steps: [
+      {id:"wmt",            caption:"Walmart — world's largest company by revenue. ~10,500 stores, 230M+ weekly customers."},
+      {id:"a_wmt_dc",       caption:"~210 U.S. distribution centers — world's largest private logistics network."},
+      {id:"apple",          caption:"Walmart sells more iPhones than most countries import. Apple is the #1 brand on Walmart shelves by dollar volume."},
+      {id:"samsung",        caption:"Samsung Galaxy phones, Samsung TVs, Samsung memory inside everything else."},
+      {id:"ko",             caption:"Coca-Cola — the original mass-distribution partner. Walmart shelves carry every KO brand."},
+      {id:"pg",             caption:"Tide, Pampers, Gillette, Crest. P&G's products end up in roughly 1 in 3 American households via Walmart."},
+      {id:"nestle",         caption:"Nescafé, KitKat, Maggi, Purina. Nestlé brands fill multiple aisles."},
+    ]
+  },
+  ai: {
+    title: "AI training run — H100s to Australian coal",
+    steps: [
+      {id:"meta",           caption:"Meta is operating ~600,000 H100-equivalent GPUs by end-2024 to train the next Llama models."},
+      {id:"p_metadc",       caption:"Meta's hyperscale AI fleet — sites in Iowa, Utah, Lulea, $10B Mesa AZ campus."},
+      {id:"c_h100die",      caption:"Each H100 die: 814 mm² silicon, 80B transistors, ~700W draw."},
+      {id:"f_tsmc_12",      caption:"All TSMC. Fab 12 in Hsinchu fabs the silicon."},
+      {id:"r_pp_taiwan_grid", caption:"Taipower grid: ~30% coal, ~40% LNG, ~10% nuclear."},
+      {id:"o_coal_au",      caption:"Australian thermal + met coal (Bowen Basin Queensland) flows to Asian power plants — including those that ultimately power AI training. ⚠ The largest hidden footprint in the AI era."},
+    ]
+  },
 };
 const storyCaption = document.getElementById("storyCaption");
 let storyState = null;
@@ -2649,6 +2786,188 @@ window.endStory = endStory;
 document.getElementById("storySelect").addEventListener("change", e=>{
   if (e.target.value) startStory(e.target.value);
   else endStory();
+});
+
+/* ============================================================================
+   ASK-THE-MAP — natural-language-ish query parser
+   ============================================================================ */
+const askResult = document.getElementById("askResult");
+function showResult(html){ askResult.innerHTML = html; askResult.classList.add("visible"); }
+
+function findNodeFuzzy(term){
+  const t = term.trim().toLowerCase();
+  if (!t) return null;
+  // exact id match
+  let hit = N.find(n => n.id.toLowerCase() === t);
+  if (hit) return hit;
+  // exact label
+  hit = N.find(n => n.label.toLowerCase() === t);
+  if (hit) return hit;
+  // label contains
+  hit = N.find(n => n.label.toLowerCase().includes(t));
+  if (hit) return hit;
+  // location / owner contains
+  hit = N.find(n => (n.location||"").toLowerCase().includes(t) || (n.owner||"").toLowerCase().includes(t));
+  return hit;
+}
+
+function findAllNodesMatching(term){
+  const t = term.trim().toLowerCase();
+  if (!t) return [];
+  return N.filter(n =>
+    n.label.toLowerCase().includes(t) ||
+    (n.location||"").toLowerCase().includes(t) ||
+    (n.owner||"").toLowerCase().includes(t) ||
+    n.id.toLowerCase().includes(t)
+  );
+}
+
+function highlightSet(set, message){
+  node.classed("dim", n=>!set.has(n.id));
+  link.classed("dim", e=>!(set.has(e.source.id) && set.has(e.target.id)))
+      .classed("hot", e=>set.has(e.source.id) && set.has(e.target.id))
+      .attr("marker-end", e=>(set.has(e.source.id) && set.has(e.target.id)) ? "url(#arr-hot)" : "url(#arr)");
+  banner.style.display = "block";
+  banner.textContent = message;
+  // re-fit on the highlighted subset
+  setTimeout(()=>{
+    const visibleNodes = N.filter(n => set.has(n.id));
+    if (!visibleNodes.length) return;
+    const xs = visibleNodes.map(n=>n.x), ys = visibleNodes.map(n=>n.y);
+    const cx = (Math.min(...xs)+Math.max(...xs))/2, cy = (Math.min(...ys)+Math.max(...ys))/2;
+    svg.transition().duration(700).call(zoom.translateTo, cx, cy);
+  }, 100);
+}
+
+function answerCompare(a, b){
+  const nodeA = findNodeFuzzy(a), nodeB = findNodeFuzzy(b);
+  if (!nodeA || !nodeB) {
+    showResult(`Couldn't find ${nodeA?b:a}.`);
+    return;
+  }
+  const chainA = chainFrom(nodeA.id);
+  const chainB = chainFrom(nodeB.id);
+  const intersection = new Set([...chainA].filter(x => chainB.has(x)));
+  intersection.delete(nodeA.id); intersection.delete(nodeB.id);
+  const union = new Set([...chainA, ...chainB]);
+  highlightSet(union, `${nodeA.label} vs ${nodeB.label}: ${union.size} nodes total, ${intersection.size} shared`);
+  showResult(`Comparing <strong>${nodeA.label}</strong> vs <strong>${nodeB.label}</strong>: <strong>${intersection.size}</strong> shared suppliers/inputs in their supply chains. Click any lit-up node to dig in.`);
+}
+
+function answerWhatUses(term){
+  const target = findNodeFuzzy(term);
+  if (!target) { showResult(`Couldn't find "${term}". Try a more specific name.`); return; }
+  // ancestors = everything that traces down through target
+  const ancestors = new Set([target.id]);
+  const stack = [target.id];
+  while (stack.length){ const x = stack.pop(); adj[x].in.forEach(p=>{ if(!ancestors.has(p)){ ancestors.add(p); stack.push(p);} }); }
+  highlightSet(ancestors, `What uses ${target.label}: ${ancestors.size} upstream nodes`);
+  const cos = [...ancestors].map(id=>N.find(n=>n.id===id)).filter(n=>n.tier===1);
+  showResult(`<strong>${cos.length}</strong> companies in this map ultimately depend on <strong>${target.label}</strong>. The chart now shows the full upstream chain — every product, plant, and company that needs it.`);
+}
+
+function answerWhereFrom(term){
+  const target = findNodeFuzzy(term);
+  if (!target) { showResult(`Couldn't find "${term}".`); return; }
+  const descendants = new Set([target.id]);
+  const stack = [target.id];
+  while (stack.length){ const x = stack.pop(); adj[x].out.forEach(p=>{ if(!descendants.has(p)){ descendants.add(p); stack.push(p);} }); }
+  highlightSet(descendants, `Where ${target.label} comes from: ${descendants.size} downstream nodes`);
+  const mines = [...descendants].map(id=>N.find(n=>n.id===id)).filter(n=>n.tier===8);
+  showResult(`<strong>${target.label}</strong> traces back to <strong>${mines.length}</strong> mines/wells/farms (highlighted on the right side of the chart).`);
+}
+
+function answerChokepoints(){
+  const lockedNodes = new Set(N.filter(n => n.noAlt).map(n => n.id));
+  if (!lockedNodes.size) { showResult("No 🔒 nodes found."); return; }
+  highlightSet(lockedNodes, `${lockedNodes.size} chokepoint nodes — each marked 🔒`);
+  showResult(`<strong>${lockedNodes.size}</strong> nodes flagged 🔒 NO VIABLE ALTERNATIVE. Click any to read both <i>why</i> it's a chokepoint and <i>how the world routes around it</i>.`);
+}
+
+function answerLocation(loc){
+  const matched = findAllNodesMatching(loc);
+  if (!matched.length) { showResult(`No nodes found matching "${loc}".`); return; }
+  // Highlight the matched nodes and their immediate chain
+  const set = new Set();
+  matched.forEach(n => set.add(n.id));
+  matched.forEach(n => { adj[n.id].in.forEach(x => set.add(x)); adj[n.id].out.forEach(x => set.add(x)); });
+  highlightSet(set, `"${loc}": ${matched.length} matching nodes (+ neighbors)`);
+  showResult(`Found <strong>${matched.length}</strong> nodes matching "${loc}". Highlighted them + their immediate connections.`);
+}
+
+function answerPower(term){
+  const target = findNodeFuzzy(term);
+  if (!target) { showResult(`Couldn't find "${term}".`); return; }
+  // Walk descendants, but emphasize that we're showing power-related nodes
+  const descendants = new Set([target.id]);
+  const stack = [target.id];
+  while (stack.length){ const x = stack.pop(); adj[x].out.forEach(p=>{ if(!descendants.has(p)){ descendants.add(p); stack.push(p);} }); }
+  const powerNodes = [...descendants].filter(id => id.startsWith("r_pp_") || id === "m_electricity" || id.startsWith("o_coal") || id.startsWith("o_uranium") || id.startsWith("o_hydro") || id.startsWith("o_solar") || id.startsWith("o_wind") || id.startsWith("o_geo") || id === "m_natgas" || id === "m_coal_thermal" || id === "m_uranium_lowenrich");
+  if (!powerNodes.length) { showResult(`Couldn't find an explicit power chain for ${target.label}, but it's connected to ${descendants.size} downstream nodes.`); return; }
+  highlightSet(descendants, `What powers ${target.label}: ${powerNodes.length} energy-related nodes in the chain`);
+  showResult(`<strong>${target.label}</strong>'s electricity ultimately comes from <strong>${powerNodes.length}</strong> power-related nodes (plants, fuels, mines).`);
+}
+
+function answerQuestion(rawQ){
+  const q = (rawQ||"").trim();
+  if (!q) return;
+
+  // Compare: "X vs Y" / "X versus Y" / "X compared to Y" / "X and Y"
+  const cmp = q.match(/^(.+?)\s+(?:vs\.?|versus|compared to|compared with)\s+(.+)$/i);
+  if (cmp) return answerCompare(cmp[1], cmp[2]);
+
+  // Chokepoints / monopolies / no alternatives
+  if (/(chokepoint|monopol|no\s+alternat|🔒|single[- ]source|single\s+point)/i.test(q)) {
+    return answerChokepoints();
+  }
+
+  // What uses X / who uses X / what depends on X / what needs X / made of X
+  const uses = q.match(/(?:what\s+(?:uses|needs)|who\s+(?:uses|needs)|what\s+depends\s+on|made\s+of|made\s+from)\s+(.+)$/i);
+  if (uses) return answerWhatUses(uses[1]);
+
+  // Where does X come from / where is X from / source of X
+  const src = q.match(/(?:where\s+(?:does|is)\s+(.+?)\s+(?:come\s+from|from)|source\s+of\s+(.+))$/i);
+  if (src) return answerWhereFrom(src[1] || src[2]);
+
+  // What powers X / what fuels X / what's the power for X
+  const pwr = q.match(/(?:what\s+(?:powers|fuels)|powered\s+by|fuel\s+for|electricity\s+for)\s+(.+)$/i);
+  if (pwr) return answerPower(pwr[1]);
+
+  // Made in X / from X / in X (location)
+  const loc = q.match(/^(?:made\s+in|from|in)\s+(.+)$/i);
+  if (loc) return answerLocation(loc[1]);
+
+  // Fallback: try fuzzy node match → focus that node
+  const node = findNodeFuzzy(q);
+  if (node) {
+    focus(node);
+    svg.transition().duration(500).call(zoom.translateTo, node.x, node.y);
+    showResult(`Found <strong>${node.label}</strong> and lit up its full chain. Click any glowing node to dig deeper.`);
+    return;
+  }
+
+  // No match — broader text search
+  const matches = findAllNodesMatching(q);
+  if (matches.length) {
+    answerLocation(q);
+    return;
+  }
+
+  showResult(`Hmm, couldn't parse "<strong>${q}</strong>". Try: "<i>tesla vs apple</i>", "<i>what uses cobalt</i>", "<i>where does graphite come from</i>", or just type a company name.`);
+}
+
+document.getElementById("askGo").onclick = ()=>{
+  answerQuestion(document.getElementById("askInput").value);
+};
+document.getElementById("askInput").addEventListener("keydown", e=>{
+  if (e.key === "Enter" && !e.shiftKey){ e.preventDefault(); answerQuestion(e.target.value); }
+});
+document.querySelectorAll(".example-chips button").forEach(b=>{
+  b.addEventListener("click", ()=>{
+    const q = b.dataset.q;
+    document.getElementById("askInput").value = q;
+    answerQuestion(q);
+  });
 });
 
 /* ---------- Apply deep-link last (after sim has had a moment to seed) ---------- */
